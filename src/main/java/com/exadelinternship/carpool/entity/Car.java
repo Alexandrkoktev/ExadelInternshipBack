@@ -1,19 +1,19 @@
 package com.exadelinternship.carpool.entity;
 
-public class CarEntity {
+public class Car {
     private long id;
     private UserEntity user;
     private String carinformation;
     private int maxseats;
 
-    public CarEntity(long id, UserEntity user, String carinformation, int maxseats) {
+    public Car(long id, UserEntity user, String carinformation, int maxseats) {
         this.id = id;
         this.user = user;
         this.carinformation = carinformation;
         this.maxseats = maxseats;
     }
 
-    public CarEntity() {
+    public Car() {
     }
 
     public long getId() {

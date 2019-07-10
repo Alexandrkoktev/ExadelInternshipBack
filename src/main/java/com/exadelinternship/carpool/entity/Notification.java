@@ -2,19 +2,19 @@ package com.exadelinternship.carpool.entity;
 
 import java.sql.Date;
 
-public class NotificationEntity {
-    private long notificationid;
+public class Notification {
+    private long id;
     private UserEntity user;
     private ActiveRoute activeroute;
     private String information;
     private Date datetime;
     private boolean checked;
 
-    public NotificationEntity() {
+    public Notification() {
     }
 
-    public NotificationEntity(long notificationid, UserEntity user, ActiveRoute activeroute, String information, Date datetime) {
-        this.notificationid = notificationid;
+    public Notification(long id, UserEntity user, ActiveRoute activeroute, String information, Date datetime) {
+        this.id = id;
         this.user = user;
         this.activeroute = activeroute;
         this.information = information;
@@ -22,12 +22,12 @@ public class NotificationEntity {
         this.checked = false;
     }
 
-    public long getNotificationid() {
-        return notificationid;
+    public long getId() {
+        return id;
     }
 
-    public void setNotificationid(long notificationid) {
-        this.notificationid = notificationid;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public UserEntity getUser() {
