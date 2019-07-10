@@ -10,7 +10,7 @@ public class Route {
     private double[] finishPoint;
     private double[][] viaPoints;
     private int routeUrl;
-    private double[][] wayPoins;
+    private double[][] wayPoints;
     double distance;
     boolean isFavourite;
 
@@ -72,12 +72,16 @@ public class Route {
         this.user = user;
     }
 
-    public void setStartPoint(double[] startPoint) {
-        this.startPoint = startPoint;
+    public void setStartPoint(double coordinateX, double coordinateY) {
+        this.startPoint = new double[2];
+        this.startPoint[0] = coordinateX;
+        this.startPoint[1] = coordinateY;
     }
 
-    public void setFinishPoint(double[] finishPoint) {
-        this.finishPoint = finishPoint;
+    public void setFinishPoint(double coordinateX, double coordinateY) {
+        this.finishPoint = new double[2];
+        this.finishPoint[0] = coordinateX;
+        this.finishPoint[1] = coordinateY;
     }
 
     public void setViaPoints(double[][] viaPoints) {
@@ -88,8 +92,8 @@ public class Route {
         this.routeUrl = routeUrl;
     }
 
-    public void setWayPoins(double[][] wayPoins) {
-        this.wayPoins = wayPoins;
+    public void setWayPoins(double[][] wayPoints) {
+        this.wayPoints = wayPoints;
     }
 
     public void setDistance(double distance) {
