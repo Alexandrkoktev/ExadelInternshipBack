@@ -1,12 +1,15 @@
 package com.exadelinternship.carpool.entity;
 
+import org.springframework.data.annotation.Id;
+
 public class Car {
+    @Id
     private long id;
-    private UserEntity user;
+    private User user;
     private String carinformation;
     private int maxseats;
 
-    public Car(long id, UserEntity user, String carinformation, int maxseats) {
+    public Car(long id, User user, String carinformation, int maxseats) {
         this.id = id;
         this.user = user;
         this.carinformation = carinformation;
@@ -24,11 +27,11 @@ public class Car {
         this.id = id;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -1,10 +1,13 @@
 package com.exadelinternship.carpool.entity;
 
 
+import org.springframework.data.annotation.Id;
+
 import java.sql.Date;
 import java.sql.Time;
 
 public class ActiveRoute {
+    @Id
     private long id;
     private Date date;
     private Time time;

@@ -1,13 +1,16 @@
 package com.exadelinternship.carpool.entity;
 
+import org.springframework.data.annotation.Id;
+
 public class Booking {
+    @Id
     private long id;
     private ActiveRoute activeRoute;
-    private UserEntity user;
+    private User user;
     private double[] meetPoint;
     private double[] destinationPoint;
 
-    public Booking(long id, ActiveRoute activeRoute, UserEntity user, double[] meetPoint, double[] destinationPoint) {
+    public Booking(long id, ActiveRoute activeRoute, User user, double[] meetPoint, double[] destinationPoint) {
         this.id = id;
         this.activeRoute = activeRoute;
         this.user = user;
@@ -23,7 +26,7 @@ public class Booking {
         return activeRoute;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -43,7 +46,7 @@ public class Booking {
         this.activeRoute = activeRoute;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -4,8 +4,9 @@ import org.springframework.data.annotation.*;
 
 public class Route {
 
+    @Id
     private long id;
-    private UserEntity user;
+    private User user;
     private double[] startPoint;
     private double[] finishPoint;
     private double[][] viaPoints;
@@ -16,7 +17,7 @@ public class Route {
 
     public Route(){
     }
-    public Route(long id, UserEntity user, double[] startPoint, double[] finishPoint, double[][] viaPoints, int routeUrl, double[][] wayPoins, double distance, boolean isFavourite) {
+    public Route(long id, User user, double[] startPoint, double[] finishPoint, double[][] viaPoints, int routeUrl, double[][] wayPoins, double distance, boolean isFavourite) {
         this.id = id;
         this.user = user;
         this.startPoint = startPoint;
@@ -32,7 +33,7 @@ public class Route {
         return id;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -68,7 +69,7 @@ public class Route {
         this.id = id;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

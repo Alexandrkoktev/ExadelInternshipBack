@@ -1,6 +1,9 @@
 package com.exadelinternship.carpool.entity;
 
-public class UserEntity {
+import org.springframework.data.annotation.Id;
+
+public class User {
+    @Id
     private long id;
     private String name;
     private String phonenumber;
@@ -10,10 +13,10 @@ public class UserEntity {
     private int role;
     private String photourl;
 
-    public UserEntity() {
+    public User() {
     }
 
-    public UserEntity(long id, String name, String phonenumber, double rating, String password, String login, int role, String photourl) {
+    public User(long id, String name, String phonenumber, double rating, String password, String login, int role, String photourl) {
         this.id = id;
         this.name = name;
         this.phonenumber = phonenumber;

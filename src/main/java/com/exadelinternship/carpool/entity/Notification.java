@@ -1,10 +1,13 @@
 package com.exadelinternship.carpool.entity;
 
+import org.springframework.data.annotation.Id;
+
 import java.sql.Date;
 
 public class Notification {
+    @Id
     private long id;
-    private UserEntity user;
+    private User user;
     private ActiveRoute activeroute;
     private String information;
     private Date datetime;
@@ -13,7 +16,7 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(long id, UserEntity user, ActiveRoute activeroute, String information, Date datetime) {
+    public Notification(long id, User user, ActiveRoute activeroute, String information, Date datetime) {
         this.id = id;
         this.user = user;
         this.activeroute = activeroute;
@@ -30,11 +33,11 @@ public class Notification {
         this.id = id;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
