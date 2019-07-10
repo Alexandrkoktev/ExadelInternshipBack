@@ -11,8 +11,8 @@ public class Route {
     private double[][] viaPoints;
     private int routeUrl;
     private double[][] wayPoints;
-    double distance;
-    boolean isFavourite;
+    private double distance;
+    private boolean isFavourite;
 
     public Route(){
     }
@@ -23,7 +23,7 @@ public class Route {
         this.finishPoint = finishPoint;
         this.viaPoints = viaPoints;
         this.routeUrl = routeUrl;
-        this.wayPoins = wayPoins;
+        this.wayPoints = wayPoins;
         this.distance = distance;
         this.isFavourite = isFavourite;
     }
@@ -53,7 +53,7 @@ public class Route {
     }
 
     public double[][] getWayPoins() {
-        return wayPoins;
+        return wayPoints;
     }
 
     public double getDistance() {
