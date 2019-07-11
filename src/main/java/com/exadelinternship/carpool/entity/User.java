@@ -1,9 +1,12 @@
 package com.exadelinternship.carpool.entity;
 
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="users")
 public class User {
-    @Id
+
     private long id;
     private String name;
     private String phoneNumber;
@@ -13,7 +16,8 @@ public class User {
     private int role;
     private String photoUrl;
 
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -22,6 +26,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(name="name",nullable=false)
     public String getName() {
         return name;
     }
@@ -30,6 +35,7 @@ public class User {
         this.name = name;
     }
 
+    @Column(name="phoneNumber")
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -38,14 +44,17 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    @Column(name="rating")
     public double getRating() {
         return rating;
     }
+
 
     public void setRating(double rating) {
         this.rating = rating;
     }
 
+    @Column(name="password")
     public String getPassword() {
         return password;
     }
@@ -54,6 +63,7 @@ public class User {
         this.password = password;
     }
 
+    @Column(name="login")
     public String getLogin() {
         return login;
     }
@@ -62,6 +72,7 @@ public class User {
         this.login = login;
     }
 
+    @Column(name="role")
     public int getRole() {
         return role;
     }
@@ -70,6 +81,7 @@ public class User {
         this.role = role;
     }
 
+    @Column(name="photoURL")
     public String getPhotoUrl() {
         return photoUrl;
     }
