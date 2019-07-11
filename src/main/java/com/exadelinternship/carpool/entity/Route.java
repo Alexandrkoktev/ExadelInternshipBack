@@ -15,19 +15,6 @@ public class Route {
     private double distance;
     private boolean isFavourite;
 
-    public Route(){
-    }
-    public Route(long id, User user, double[] startPoint, double[] finishPoint, double[][] viaPoints, int routeUrl, double[][] wayPoins, double distance, boolean isFavourite) {
-        this.id = id;
-        this.user = user;
-        this.startPoint = startPoint;
-        this.finishPoint = finishPoint;
-        this.viaPoints = viaPoints;
-        this.routeUrl = routeUrl;
-        this.wayPoints = wayPoins;
-        this.distance = distance;
-        this.isFavourite = isFavourite;
-    }
 
     public long getId() {
         return id;
@@ -73,16 +60,16 @@ public class Route {
         this.user = user;
     }
 
-    public void setStartPoint(double coordinateX, double coordinateY) {
-        this.startPoint = new double[2];
-        this.startPoint[0] = coordinateX;
-        this.startPoint[1] = coordinateY;
+    public void setStartPoint(double[] startPoint) {
+        this.startPoint = startPoint;
     }
 
-    public void setFinishPoint(double coordinateX, double coordinateY) {
-        this.finishPoint = new double[2];
-        this.finishPoint[0] = coordinateX;
-        this.finishPoint[1] = coordinateY;
+    public void setFinishPoint(double[] finishPoint) {
+        this.finishPoint = finishPoint;
+    }
+
+    public void setWayPoints(double[][] wayPoints) {
+        this.wayPoints = wayPoints;
     }
 
     public void setViaPoints(double[][] viaPoints) {

@@ -6,26 +6,13 @@ public class User {
     @Id
     private long id;
     private String name;
-    private String phonenumber;
+    private String phoneNumber;
     private double rating;
     private String password;
     private String login;
     private int role;
-    private String photourl;
+    private String photoUrl;
 
-    public User() {
-    }
-
-    public User(long id, String name, String phonenumber, double rating, String password, String login, int role, String photourl) {
-        this.id = id;
-        this.name = name;
-        this.phonenumber = phonenumber;
-        this.rating = rating;
-        this.password = password;
-        this.login = login;
-        this.role = role;
-        this.photourl = photourl;
-    }
 
     public long getId() {
         return id;
@@ -43,12 +30,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public double getRating() {
@@ -83,11 +70,11 @@ public class User {
         this.role = role;
     }
 
-    public String getPhotourl() {
-        return photourl;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhotourl(String photourl) {
-        this.photourl = photourl;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

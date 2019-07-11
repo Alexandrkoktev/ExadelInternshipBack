@@ -8,22 +8,11 @@ public class Notification {
     @Id
     private long id;
     private User user;
-    private ActiveRoute activeroute;
+    private ActiveRoute activeRoute;
     private String information;
     private Date datetime;
     private boolean checked;
 
-    public Notification() {
-    }
-
-    public Notification(long id, User user, ActiveRoute activeroute, String information, Date datetime) {
-        this.id = id;
-        this.user = user;
-        this.activeroute = activeroute;
-        this.information = information;
-        this.datetime = datetime;
-        this.checked = false;
-    }
 
     public long getId() {
         return id;
@@ -41,12 +30,12 @@ public class Notification {
         this.user = user;
     }
 
-    public ActiveRoute getActiveroute() {
-        return activeroute;
+    public ActiveRoute getActiveRoute() {
+        return activeRoute;
     }
 
-    public void setActiveroute(ActiveRoute activeroute) {
-        this.activeroute = activeroute;
+    public void setActiveRoute(ActiveRoute activeRoute) {
+        this.activeRoute = activeRoute;
     }
 
     public String getInformation() {

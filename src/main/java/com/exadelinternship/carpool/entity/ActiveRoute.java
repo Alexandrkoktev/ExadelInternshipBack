@@ -15,15 +15,6 @@ public class ActiveRoute {
     private Car car;
     private short maxSeats;
     private short freeSeats;
-    public ActiveRoute(long id, Date date, Time time, Route route, Car car, short maxSeats, short freeSeats) {
-        this.id = id;
-        this.date = date;
-        this.time = time;
-        this.route = route;
-        this.car = car;
-        this.maxSeats = maxSeats;
-        this.freeSeats = freeSeats;
-    }
 
     public long getId() {
         return id;

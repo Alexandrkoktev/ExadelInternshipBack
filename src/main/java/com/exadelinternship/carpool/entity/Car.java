@@ -6,18 +6,9 @@ public class Car {
     @Id
     private long id;
     private User user;
-    private String carinformation;
-    private int maxseats;
+    private String carInformation;
+    private int maxSeats;
 
-    public Car(long id, User user, String carinformation, int maxseats) {
-        this.id = id;
-        this.user = user;
-        this.carinformation = carinformation;
-        this.maxseats = maxseats;
-    }
-
-    public Car() {
-    }
 
     public long getId() {
         return id;
@@ -35,19 +26,19 @@ public class Car {
         this.user = user;
     }
 
-    public String getCarinformation() {
-        return carinformation;
+    public String getCarInformation() {
+        return carInformation;
     }
 
-    public void setCarinformation(String carinformation) {
-        this.carinformation = carinformation;
+    public void setCarInformation(String carInformation) {
+        this.carInformation = carInformation;
     }
 
-    public int getMaxseats() {
-        return maxseats;
+    public int getMaxSeats() {
+        return maxSeats;
     }
 
-    public void setMaxseats(int maxseats) {
-        this.maxseats = maxseats;
+    public void setMaxSeats(int maxSeats) {
+        this.maxSeats = maxSeats;
     }
 }

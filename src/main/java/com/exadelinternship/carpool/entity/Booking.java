@@ -10,13 +10,6 @@ public class Booking {
     private double[] meetPoint;
     private double[] destinationPoint;
 
-    public Booking(long id, ActiveRoute activeRoute, User user, double[] meetPoint, double[] destinationPoint) {
-        this.id = id;
-        this.activeRoute = activeRoute;
-        this.user = user;
-        this.meetPoint = meetPoint;
-        this.destinationPoint = destinationPoint;
-    }
 
     public long getId() {
         return id;
@@ -50,16 +43,11 @@ public class Booking {
         this.user = user;
     }
 
-    public void setMeetPoint(double coordinateX, double coordinateY) {
-        this.meetPoint = new double[2];
-        this.meetPoint[0] = coordinateX;
-        this.meetPoint[1] = coordinateY;
+    public void setMeetPoint(double[] meetPoint) {
+        this.meetPoint = meetPoint;
     }
 
-    public void setDestinationPoint(double coordinateX, double coordinateY) {
-        this.destinationPoint = new double[2];
-        this.destinationPoint[0] = coordinateX;
-        this.destinationPoint[1] = coordinateY;
-
+    public void setDestinationPoint(double[] destinationPoint) {
+        this.destinationPoint = destinationPoint;
     }
 }
