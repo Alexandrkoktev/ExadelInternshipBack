@@ -11,6 +11,12 @@ public class Route {
     private long id;
 
     @Column(name="startPoint",nullable=false)
+    private String startPointName;
+
+    @Column(name="finishPointName",nullable=false)
+    private String finishPointName;
+
+    @Column(name="startPointName",nullable=false)
     private double[] startPoint;
 
     @Column(name="finishPoint",nullable=false)
@@ -28,15 +34,28 @@ public class Route {
     @Column(name="distance",nullable=false)
     private double distance;
 
-    @Column(name="isFavourite",nullable=false)
-    private boolean isFavourite;
-
     @ManyToOne
     @JoinColumn(name = "user_fk")
     private User user;
 
     @OneToMany(mappedBy="route")
     private Set<ActiveRoute> activeRoutes;
+
+    public String getStartPointName() {
+        return startPointName;
+    }
+
+    public void setStartPointName(String startPointName) {
+        this.startPointName = startPointName;
+    }
+
+    public String getFinishPointName() {
+        return finishPointName;
+    }
+
+    public void setFinishPointName(String finishPointName) {
+        this.finishPointName = finishPointName;
+    }
 
     public long getId() {
         return id;
@@ -92,14 +111,6 @@ public class Route {
 
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public boolean isFavourite() {
-        return isFavourite;
-    }
-
-    public void setFavourite(boolean favourite) {
-        isFavourite = favourite;
     }
 
     public User getUser() {

@@ -47,9 +47,20 @@ public class User {
     @OneToMany(mappedBy="user")
     private Set<ActiveRoute> activeRoutes;
 
+
     @OneToMany(mappedBy="user")
     private Set<Booking> bookings;
 
+    @OneToMany(mappedBy="user")
+    private Set<FavouriteRoute> favouriteRoutes;
+
+    public Set<FavouriteRoute> getFavouriteRoutes() {
+        return favouriteRoutes;
+    }
+
+    public void setFavouriteRoutes(Set<FavouriteRoute> favouriteRoutes) {
+        this.favouriteRoutes = favouriteRoutes;
+    }
 
     public Set<Notification> getNotifications() {
         return notifications;
