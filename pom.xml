@@ -4,12 +4,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.guides.springboot2</groupId>
-    <artifactId>springboot2-postgresql-jpa-hibernate-crud-example</artifactId>
+    <groupId>com.exadelInternship</groupId>
+    <artifactId>com.exadelInternship.carpool</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>springboot2-postgresql-jpa-hibernate-crud-example</name>
-    <description>springboot2-postgresql-jpa-hibernate-crud-example</description>
+    <name>carpool</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -41,6 +40,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.5</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
