@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.exadelinternship.carpool.entity.User;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select u from User u where u.id= :id")
-    User findById(@Param("id")long id);
+    Optional<User> findByLogin(String login);
 }

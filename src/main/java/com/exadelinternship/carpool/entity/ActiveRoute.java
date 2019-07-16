@@ -11,7 +11,7 @@ public class ActiveRoute {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name="amountOfVoters")
+    @Column(name="timeAndDate")
     private Timestamp timeAndDate;
 
     @Column(name="maxSeats")
