@@ -1,9 +1,5 @@
 package com.exadelinternship.carpool.dto;
 
-import com.exadelinternship.carpool.entity.Booking;
-import com.exadelinternship.carpool.entity.Car;
-import com.exadelinternship.carpool.entity.Route;
-
 import java.sql.Timestamp;
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.exadelinternship.carpool.adapters;
 
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
 import com.exadelinternship.carpool.dto.BookingForDriverDTO;
 import com.exadelinternship.carpool.entity.ActiveRoute;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ActiveRouteAdapter {
