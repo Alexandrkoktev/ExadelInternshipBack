@@ -22,6 +22,12 @@ public class ActiveRouteController {
         return activeRouteService.getPageOfActiveRoutesInformation(activeRouteIdentity);
     }
 
+    @PostMapping
+    @RequestMapping("/addRoute")
+    public void addActiveRoute(@Valid @RequestBody ActiveRouteIdentityDTO activeRouteIdentity){
+
+    }
+
     @GetMapping
     @RequestMapping("/activeRoute/{id}")
     public ActiveRouteInformationDTO getActiveRoutes(@PathVariable long id){

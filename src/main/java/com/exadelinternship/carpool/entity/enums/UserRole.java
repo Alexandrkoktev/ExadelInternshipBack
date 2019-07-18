@@ -1,6 +1,13 @@
 package com.exadelinternship.carpool.entity.enums;
 
-public enum UserRole{
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole implements GrantedAuthority {
     COMMONUSER,
-    ADMINISTRATOR
+    ADMINISTRATOR;
+    @Override
+    public String getAuthority()
+    {
+        return name();
+    }
 }

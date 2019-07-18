@@ -5,8 +5,11 @@ import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.Notification;
 import com.exadelinternship.carpool.entity.User;
+import com.exadelinternship.carpool.entity.enums.UserRole;
+import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,5 +41,14 @@ public class UserAdapter {
         return activeRoutes.stream()
                 .sorted((x,y)->{return x.getTimeAndDate().compareTo(y.getTimeAndDate());})
                 .limit(amount).collect(Collectors.toList());
+    }
+    public UserDetailsImpl userToUserDetail(User user){
+        UserDetailsImpl userDetails = new UserDetailsImpl();
+        userDetails.setId(user.getId());
+        userDetails.setPassword(user.getPassword());
+        userDetails.setUsername(user.getLogin());
+
+        userDetails.setRole(Collections.singleton(user.getRole()));
+        return userDetails;
     }
 }

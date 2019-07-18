@@ -1,6 +1,8 @@
 package com.exadelinternship.carpool.entity;
 
 
+import com.exadelinternship.carpool.entity.enums.UserRole;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class User {
     private String login;
 
     @Column(name="role")
-    private int role;
+    private UserRole role;
 
     @Column(name="photoURL")
     private String photoUrl;
@@ -140,15 +142,13 @@ public class User {
         this.login = login;
     }
 
-
-    public int getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
-
 
     public String getPhotoUrl() {
         return photoUrl;
