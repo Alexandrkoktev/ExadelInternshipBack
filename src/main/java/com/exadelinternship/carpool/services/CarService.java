@@ -3,9 +3,7 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.CarAdapter;
 import com.exadelinternship.carpool.dto.CarDTO;
 import com.exadelinternship.carpool.entity.Car;
-import com.exadelinternship.carpool.entity.User;
 import com.exadelinternship.carpool.repository.CarRepository;
-import com.exadelinternship.carpool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +16,6 @@ public class CarService {
     private CarRepository carRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private CarAdapter carAdapter;
 
     public List<CarDTO> getAllCars(){
@@ -29,13 +24,16 @@ public class CarService {
         return result;
     }
 
+    public CarDTO getCarById(long id){
+        return carAdapter.carToCarDto(carRepository.getOne(id));
+    }
+
     public void saveCar(CarDTO carDTO){
         Car car=carAdapter.carDtoToCar(carDTO);
-        System.out.println("Info "+carDTO.getCarInformation());
         carRepository.save(car);
     }
 
-    public void deleteById(long id){
+    public void deleteCarById(long id){
         carRepository.deleteById(id);
     }
 }
