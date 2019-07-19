@@ -1,6 +1,8 @@
 package com.exadelinternship.carpool.entity;
 
 
+import com.exadelinternship.carpool.entity.enums.UserRole;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class User {
     private String login;
 
     @Column(name="role")
-    private int role;
+    private UserRole role;
 
     @Column(name="photoURL")
     private String photoUrl;
@@ -35,23 +37,23 @@ public class User {
     @Column(name="amountOfVoters")
     private int amountOfVoters;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Car> cars;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Route> routes;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Notification> notifications;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<ActiveRoute> activeRoutes;
 
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Booking> bookings;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<FavouriteRoute> favouriteRoutes;
 
     public Set<FavouriteRoute> getFavouriteRoutes() {
@@ -140,15 +142,13 @@ public class User {
         this.login = login;
     }
 
-
-    public int getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
-
 
     public String getPhotoUrl() {
         return photoUrl;

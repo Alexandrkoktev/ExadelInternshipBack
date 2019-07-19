@@ -20,21 +20,21 @@ public class ActiveRoute {
     @Column(name="freeSeats")
     private short freeSeats;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_fk")
     private Route route;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_fk")
     private Car car;
 
-    @OneToMany(mappedBy="activeRoute")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="activeRoute")
     private Set<Booking> bookings;
 
-    @OneToMany(mappedBy="activeRoute")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="activeRoute")
     private Set<Notification> notifications;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
 

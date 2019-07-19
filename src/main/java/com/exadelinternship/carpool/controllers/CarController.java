@@ -31,7 +31,7 @@ public class CarController {
         carService.saveCar(carDTO);
     }
 
-    @PostMapping("/profile/cars/{id}")
+    @PutMapping("/profile/cars/{id}")
     @ResponseBody
     public void updateCar(@Valid @RequestBody CarDTO carDTO){
         carService.saveCar(carDTO);
@@ -40,7 +40,7 @@ public class CarController {
     @DeleteMapping("/profile/cars/{id}")
     @ResponseBody
     public void deleteCar(@PathVariable("id") long id){
-        carService.deleteById(id);
+        carService.deleteCarById(id);
     }
 
 

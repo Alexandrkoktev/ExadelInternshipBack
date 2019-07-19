@@ -2,25 +2,17 @@ package com.exadelinternship.carpool.dto;
 
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
+import com.exadelinternship.carpool.entity.enums.UserRole;
 
 import java.util.List;
 
 public class UserInformationDTO {
-    private long id;
     private String name;
     private String photoURL;
-    private int role;
+    private UserRole role;
     private boolean AllNotificationsChecked;
     private List<ActiveRoute> activeRoutes;
     private List<Booking> bookings;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public List<ActiveRoute> getActiveRoutes() {
         return activeRoutes;
@@ -46,11 +38,11 @@ public class UserInformationDTO {
         AllNotificationsChecked = allNotificationsChecked;
     }
 
-    public int getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

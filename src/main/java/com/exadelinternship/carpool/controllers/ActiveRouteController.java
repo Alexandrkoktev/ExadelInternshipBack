@@ -16,10 +16,22 @@ public class ActiveRouteController {
     @Autowired
     private ActiveRouteService activeRouteService;
 
+    @GetMapping
+    @RequestMapping("/activeRoutes/{pageNumber}")
+    public List<ActiveRouteFastInformationDTO> getActiveRoutesFastInformation(@PathVariable int pageNumber){
+        return activeRouteService.getPageOfActiveRoutesInformation(pageNumber);
+    }
+
     @PostMapping
-    @RequestMapping("/activeRoutes")
-    public List<ActiveRouteFastInformationDTO> getActiveRoutesFastInformation(@Valid @RequestBody ActiveRouteIdentityDTO activeRouteIdentity){
-        return activeRouteService.getPageOfActiveRoutesInformation(activeRouteIdentity);
+    @RequestMapping("/addRoute")
+    public void addActiveRoute(@Valid @RequestBody ActiveRouteIdentityDTO activeRouteIdentity){
+
+    }
+
+    @DeleteMapping
+    @RequestMapping("/deleteRoute")
+    public void deleteActiveRoute(@Valid @RequestBody long id){
+        deleteActiveRoute(id);
     }
 
     @GetMapping

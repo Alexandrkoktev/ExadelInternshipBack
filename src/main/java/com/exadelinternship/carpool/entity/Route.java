@@ -10,13 +10,13 @@ public class Route {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    @Column(name="startPoint",nullable=false)
+    @Column(name="startPointName",nullable=false)
     private String startPointName;
 
     @Column(name="finishPointName",nullable=false)
     private String finishPointName;
 
-    @Column(name="startPointName",nullable=false)
+    @Column(name="startPoint",nullable=false)
     private double[] startPoint;
 
     @Column(name="finishPoint",nullable=false)
@@ -34,11 +34,11 @@ public class Route {
     @Column(name="distance",nullable=false)
     private double distance;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
 
-    @OneToMany(mappedBy="route")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="route")
     private Set<ActiveRoute> activeRoutes;
 
     public String getStartPointName() {

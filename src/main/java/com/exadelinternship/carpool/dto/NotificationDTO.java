@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 public class NotificationDTO {
     private long id;
-    private long userId;
     private long activeRouteId;
     private String information;
     private Timestamp datetime;
@@ -16,14 +15,6 @@ public class NotificationDTO {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public long getActiveRouteId() {
