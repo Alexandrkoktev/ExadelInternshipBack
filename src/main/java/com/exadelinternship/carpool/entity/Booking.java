@@ -9,11 +9,11 @@ public class Booking {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="activeRoute_fk")
     private ActiveRoute activeRoute;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_fk")
     private User user;
 

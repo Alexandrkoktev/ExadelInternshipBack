@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class CarAdapter {
     @Autowired
     UserRepository userRepository;
-    public Car carDtoToCar(CarDTO carDTO){
+    public Car carDtoToCar(CarDTO carDTO,long userId){
         Car car=new Car();
         car.setCarInformation(carDTO.getCarInformation());
         car.setMaxSeats(carDTO.getCapacity());
         car.setId(carDTO.getId());
-        car.setUser(userRepository.findById(carDTO.getUserId()).get());
+        car.setUser(userRepository.getOne(userId));
         return car;
     }
     public CarDTO carToCarDto(Car car){
@@ -25,7 +25,6 @@ public class CarAdapter {
         carDTO.setCapacity(car.getMaxSeats());
         carDTO.setCarInformation(car.getCarInformation());
         carDTO.setId(car.getId());
-        carDTO.setUserId(car.getUser().getId());
         return carDTO;
     }
 

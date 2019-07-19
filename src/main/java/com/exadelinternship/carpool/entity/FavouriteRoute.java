@@ -12,11 +12,11 @@ public class FavouriteRoute {
     @Column(name="name",nullable=false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_fk")
     private Route route;
 

@@ -14,14 +14,14 @@ public class NotificationAdapter {
     @Autowired
     UserRepository userRepository;
 
-    public Notification notifDtoToNotif(NotificationDTO notificationDTO){
+    public Notification notifDtoToNotif(NotificationDTO notificationDTO,long userId){
         Notification notif=new Notification();
         notif.setActiveRoute(activeRouteRepository.getOne(notificationDTO.getId()));
         notif.setDatetime(notificationDTO.getDatetime());
         notif.setInformation(notificationDTO.getInformation());
         notif.setId(notificationDTO.getId());
         notif.setChecked(notificationDTO.isChecked());
-        notif.setUser(userRepository.getOne(notificationDTO.getActiveRouteId()));
+        notif.setUser(userRepository.getOne(userId));
         return notif;
     }
 
@@ -32,7 +32,6 @@ public class NotificationAdapter {
         notifDTO.setId(notification.getId());
         notifDTO.setInformation(notification.getInformation());
         notifDTO.setActiveRouteId(notification.getActiveRoute().getId());
-        notifDTO.setUserId(notification.getUser().getId());
         return notifDTO;
     }
 

@@ -34,11 +34,11 @@ public class Route {
     @Column(name="distance",nullable=false)
     private double distance;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
 
-    @OneToMany(mappedBy="route")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="route")
     private Set<ActiveRoute> activeRoutes;
 
     public String getStartPointName() {

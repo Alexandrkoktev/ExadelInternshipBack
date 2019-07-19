@@ -11,11 +11,11 @@ public class FavouriteRouteAdapter {
     @Autowired
     UserRepository userRepository;
 
-     public FavouriteRoute favRouteDTOToFavRoute(FavouriteRouteDTO favRouteDTO){
+     public FavouriteRoute favRouteDTOToFavRoute(FavouriteRouteDTO favRouteDTO,long userId){
          FavouriteRoute favR=new FavouriteRoute();
          favR.setId(favRouteDTO.getId());
          favR.setName(favRouteDTO.getName());
-         favR.setUser(userRepository.getOne(favRouteDTO.getUserId()));
+         favR.setUser(userRepository.getOne(userId));
          favR.setRoute(favRouteDTO.getRoute());
          return  favR;
      }
@@ -25,7 +25,6 @@ public class FavouriteRouteAdapter {
          favRDTO.setId(favRoute.getId());
          favRDTO.setName(favRoute.getName());
          favRDTO.setRoute(favRoute.getRoute());
-         favRDTO.setUserId(favRoute.getUser().getId());
          return  favRDTO;
      }
 

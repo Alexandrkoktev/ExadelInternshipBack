@@ -5,7 +5,6 @@ import com.exadelinternship.carpool.entity.Route;
 public class FavouriteRouteDTO {
     private long id;
     private String name;
-    private long userId;
     private Route route;
 
     public long getId() {
@@ -22,14 +21,6 @@ public class FavouriteRouteDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public Route getRoute() {

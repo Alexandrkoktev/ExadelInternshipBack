@@ -19,10 +19,6 @@ public class CarController {
         return  carService.getAllCars();
     }
 
-    @GetMapping("/profile/cars/{id}")
-    @ResponseBody
-    public CarDTO getCarProfile(@PathVariable("id") long id){return carService.getCarById(id);}
-
     @GetMapping("/newRoute/cars")
     @ResponseBody
     public List<CarDTO> getAllCarRoute(){

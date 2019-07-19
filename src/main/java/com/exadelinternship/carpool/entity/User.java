@@ -37,23 +37,23 @@ public class User {
     @Column(name="amountOfVoters")
     private int amountOfVoters;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Car> cars;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Route> routes;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Notification> notifications;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<ActiveRoute> activeRoutes;
 
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Booking> bookings;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<FavouriteRoute> favouriteRoutes;
 
     public Set<FavouriteRoute> getFavouriteRoutes() {

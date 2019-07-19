@@ -4,15 +4,6 @@ public class CarDTO {
     private long id;
     private String carInformation;
     private int capacity;
-    private long userId;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 
     public long getId() {
         return id;

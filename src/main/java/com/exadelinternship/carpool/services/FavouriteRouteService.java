@@ -3,8 +3,10 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.FavouriteRouteAdapter;
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
 import com.exadelinternship.carpool.entity.FavouriteRoute;
+import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.FavouriteRouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,12 +21,14 @@ public class FavouriteRouteService {
 
     public List<FavouriteRouteDTO>  getAllFavouriteRoutes(){
         List<FavouriteRouteDTO> result=new ArrayList<>();
-        favouriteRouteRepository.findAll().forEach(favRoute -> result.add(favouriteRouteAdapter.favRouteToFavRouteDTO(favRoute)));
+        long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        favouriteRouteRepository.findAllByUser_Id(userId).forEach(favRoute -> result.add(favouriteRouteAdapter.favRouteToFavRouteDTO(favRoute)));
         return result;
     }
 
     public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO){
-        FavouriteRoute favouriteRoute=favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO);
+        long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        FavouriteRoute favouriteRoute=favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO,userId);
         favouriteRouteRepository.save(favouriteRoute);
     }
 
