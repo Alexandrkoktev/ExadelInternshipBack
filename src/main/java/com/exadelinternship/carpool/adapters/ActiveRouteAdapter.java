@@ -1,10 +1,10 @@
 package com.exadelinternship.carpool.adapters;
 
+import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
 import com.exadelinternship.carpool.dto.BookingForDriverDTO;
-import com.exadelinternship.carpool.entity.ActiveRoute;
-import com.exadelinternship.carpool.entity.Booking;
+import com.exadelinternship.carpool.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,18 @@ public class ActiveRouteAdapter {
         activeRouteFastInformationDTO.setTimeAndDate(activeRoute.getTimeAndDate());
         return activeRouteFastInformationDTO;
     }
+
+    public ActiveRoute activeRouteAddingDTOToActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO, Car car, Route route, User user){
+        ActiveRoute activeRoute = new ActiveRoute();
+        activeRoute.setFreeSeats(activeRouteAddingDTO.getFreeSeats());
+        activeRoute.setCar(car);
+        activeRoute.setRoute(route);
+        activeRoute.setMaxSeats(activeRouteAddingDTO.getMaxSeats());
+        activeRoute.setTimeAndDate(activeRouteAddingDTO.getTimeAndDate());
+        activeRoute.setUser(user);
+        return activeRoute;
+    }
+
     public ActiveRouteInformationDTO activeRouteToActiveRouteInformationDTO(ActiveRoute activeRoute){
         ActiveRouteInformationDTO activeRouteInformationDTO = new ActiveRouteInformationDTO();
         activeRouteInformationDTO.setCarInformation(activeRoute.getCar().getCarInformation());
@@ -46,4 +58,5 @@ public class ActiveRouteAdapter {
         bookings.stream().forEach(x->bookingForDriverDTOS.add(bookingAdapter.bookingToBookingFoDriverDTO(x)));
         return bookingForDriverDTOS;
     }
+
 }

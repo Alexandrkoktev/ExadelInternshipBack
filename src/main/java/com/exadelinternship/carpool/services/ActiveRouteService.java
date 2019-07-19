@@ -1,13 +1,14 @@
 package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
+import com.exadelinternship.carpool.adapters.RouteAdapter;
+import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
-import com.exadelinternship.carpool.entity.ActiveRoute;
-import com.exadelinternship.carpool.entity.Booking;
+import com.exadelinternship.carpool.entity.*;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
-import com.exadelinternship.carpool.repository.ActiveRouteRepository;
+import com.exadelinternship.carpool.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,37 @@ public class ActiveRouteService {
     ActiveRouteRepository activeRouteRepository;
     @Autowired
     ActiveRouteAdapter activeRouteAdapter;
+    @Autowired
+    CarRepository carRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RouteRepository routeRepository;
+    @Autowired
+    FavouriteRouteRepository favouriteRouteRepository;
+    @Autowired
+    RouteAdapter routeAdapter;
 
     public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(int pageNumber){
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_Id(user.getId());
         return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(activeRoutes,pageNumber));
+    }
+
+    public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
+        User user = userRepository.getOne(userDetails.getId());
+        Route route;
+        if(activeRouteAddingDTO.isFavourite()){
+            FavouriteRoute fRoute = favouriteRouteRepository.getOne(activeRouteAddingDTO.getFavouriteRouteId());
+            route = routeRepository.getOne(fRoute.getRoute().getId());
+        } else{
+            route = routeAdapter.activeRouteAddingDTOToRoute(activeRouteAddingDTO, user);
+            route = routeRepository.save(route);
+        }
+        ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO,car,route,user);
+        activeRouteRepository.save(activeRoute);
     }
 
     public ActiveRouteInformationDTO getActiveRouteInformation(long id){

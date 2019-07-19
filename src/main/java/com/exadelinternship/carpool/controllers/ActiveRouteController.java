@@ -1,5 +1,6 @@
 package com.exadelinternship.carpool.controllers;
 
+import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
 import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
@@ -24,8 +25,8 @@ public class ActiveRouteController {
 
     @PostMapping
     @RequestMapping("/addRoute")
-    public void addActiveRoute(@Valid @RequestBody ActiveRouteIdentityDTO activeRouteIdentity){
-
+    public void addActiveRoute(@Valid @RequestBody ActiveRouteAddingDTO activeRoute){
+        activeRouteService.addActiveRoute(activeRoute);
     }
 
     @DeleteMapping

@@ -15,6 +15,7 @@ import java.util.List;
 public class BookingController {
     @Autowired
     BookingService bookingService;
+
     @GetMapping
     @RequestMapping("/bookings/{pageNumber}")
     public List<BookingFastInformationDTO> getBookingFastInformation(@PathVariable int pageNumber){
