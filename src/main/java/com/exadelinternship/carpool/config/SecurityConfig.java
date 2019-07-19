@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers().permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/profile/cars").failureUrl("/login?error").permitAll()
+                .defaultSuccessUrl("/main").failureUrl("/login?error").permitAll()
                 .and().logout().logoutSuccessUrl("/").permitAll();
         http.csrf().disable();
         http.formLogin().usernameParameter("j_username")

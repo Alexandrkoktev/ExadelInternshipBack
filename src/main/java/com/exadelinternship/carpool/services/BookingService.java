@@ -8,10 +8,12 @@ import com.exadelinternship.carpool.dto.BookingInformationDTO;
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.User;
+import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.ActiveRouteRepository;
 import com.exadelinternship.carpool.repository.BookingRepository;
 import com.exadelinternship.carpool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,24 +35,39 @@ public class BookingService {
     @Autowired
     ActiveRouteRepository activeRouteRepository;
 
-    public List<BookingFastInformationDTO> getPageOfBookingsInformation(ActiveRouteIdentityDTO activeRouteIdentity){
-        Set<Booking> bookings = bookingRepository.getByUser_Id(activeRouteIdentity.getUserId());
-        return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(bookings,PAGE_SIZE));
+    public List<BookingFastInformationDTO> getPageOfBookingsInformation(int pageNumber){
+        UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<Booking> bookings = bookingRepository.getByUser_Id(user.getId());
+        return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(bookings,pageNumber));
     }
 
     public BookingInformationDTO getBookingInformation(long id){
-        return bookingAdapter.bookingToBookingInformationDTO(bookingRepository.getOne(id));
+        UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Booking booking = bookingRepository.getOne(id);
+        if(booking!=null && booking.getUser().getId()==user.getId()) {
+            return bookingAdapter.bookingToBookingInformationDTO(bookingRepository.getOne(id));
+        } else{
+            return null;
+        }
     }
 
     public void addBooking(BookingAddingDTO bookingToAdd){
-        User user = userRepository.getOne(bookingToAdd.getUserId());
+        UserDetailsImpl userDetails = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.getOne(userDetails.getId());
         ActiveRoute activeRoute = activeRouteRepository.getOne(bookingToAdd.getActiveRouteId());
         Booking booking = bookingAdapter.bookingAddingToBooking(bookingToAdd,user,activeRoute);
         bookingRepository.save(booking);
     }
 
     public void deleteBooking(long id){
-        bookingRepository.deleteById(id);
+        UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Booking booking = bookingRepository.getOne(id);
+        if(booking!=null && booking.getUser().getId()==user.getId()){
+            bookingRepository.delete(booking);
+        }
+        else{
+
+        }
     }
 
     private List<Booking> getPageOfActiveRoutes(Set<Booking> activeRoutes, int pageNumber){

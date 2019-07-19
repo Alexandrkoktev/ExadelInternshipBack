@@ -7,21 +7,12 @@ import com.exadelinternship.carpool.entity.enums.UserRole;
 import java.util.List;
 
 public class UserInformationDTO {
-    private long id;
     private String name;
     private String photoURL;
     private UserRole role;
     private boolean AllNotificationsChecked;
     private List<ActiveRoute> activeRoutes;
     private List<Booking> bookings;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public List<ActiveRoute> getActiveRoutes() {
         return activeRoutes;
