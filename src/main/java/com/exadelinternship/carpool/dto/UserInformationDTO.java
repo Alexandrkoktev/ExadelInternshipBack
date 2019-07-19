@@ -11,22 +11,22 @@ public class UserInformationDTO {
     private String photoURL;
     private UserRole role;
     private boolean AllNotificationsChecked;
-    private List<ActiveRoute> activeRoutes;
-    private List<Booking> bookings;
+    private List<ActiveRouteFastInformationDTO> activeRoutes;
+    private List<BookingFastInformationDTO> bookings;
 
-    public List<ActiveRoute> getActiveRoutes() {
+    public List<ActiveRouteFastInformationDTO> getActiveRoutes() {
         return activeRoutes;
     }
 
-    public void setActiveRoutes(List<ActiveRoute> activeRoutes) {
+    public void setActiveRoutes(List<ActiveRouteFastInformationDTO> activeRoutes) {
         this.activeRoutes = activeRoutes;
     }
 
-    public List<Booking> getBookings() {
+    public List<BookingFastInformationDTO> getBookings() {
         return bookings;
     }
 
-    public void setBookings(List<Booking> bookings) {
+    public void setBookings(List<BookingFastInformationDTO> bookings) {
         this.bookings = bookings;
     }
 

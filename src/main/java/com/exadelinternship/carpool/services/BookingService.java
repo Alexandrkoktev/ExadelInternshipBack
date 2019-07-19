@@ -55,15 +55,21 @@ public class BookingService {
         UserDetailsImpl userDetails = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getOne(userDetails.getId());
         ActiveRoute activeRoute = activeRouteRepository.getOne(bookingToAdd.getActiveRouteId());
-        Booking booking = bookingAdapter.bookingAddingToBooking(bookingToAdd,user,activeRoute);
-        bookingRepository.save(booking);
+        if(activeRoute.getFreeSeats() != 0){
+            Booking booking = bookingAdapter.bookingAddingToBooking(bookingToAdd,user,activeRoute);
+            activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats() - 1));
+            activeRouteRepository.save(activeRoute);
+            bookingRepository.save(booking);
+        }
     }
 
     public void deleteBooking(long id){
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(id);
+        ActiveRoute activeRoute = activeRouteRepository.getOne(booking.getActiveRoute().getId());
         if(booking!=null && booking.getUser().getId()==user.getId()){
             bookingRepository.delete(booking);
+            activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats()+1));
         }
         else{
 

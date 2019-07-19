@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class CarAdapter {
     @Autowired
     UserRepository userRepository;
+
     public Car carDtoToCar(CarDTO carDTO,long userId){
         Car car=new Car();
         car.setCarInformation(carDTO.getCarInformation());
@@ -20,6 +21,7 @@ public class CarAdapter {
         car.setUser(userRepository.getOne(userId));
         return car;
     }
+
     public CarDTO carToCarDto(Car car){
         CarDTO carDTO=new CarDTO();
         carDTO.setCapacity(car.getMaxSeats());
