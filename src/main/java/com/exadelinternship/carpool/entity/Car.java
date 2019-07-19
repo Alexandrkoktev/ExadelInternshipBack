@@ -10,7 +10,7 @@ public class Car {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
 
@@ -20,7 +20,7 @@ public class Car {
     @Column(name="maxSeats")
     private int maxSeats;
 
-    @OneToMany(mappedBy="car")
+    @OneToMany(mappedBy="car", fetch = FetchType.LAZY)
     private Set<ActiveRoute> activeRoutes;
 
     public long getId() {

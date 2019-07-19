@@ -15,14 +15,14 @@ import java.util.List;
 public class BookingController {
     @Autowired
     BookingService bookingService;
-    @PostMapping
-    @RequestMapping("/bookings")
-    public List<BookingFastInformationDTO> getBookingFastInformation(@Valid @RequestBody ActiveRouteIdentityDTO activeRouteIdentity){
-        return bookingService.getPageOfBookingsInformation(activeRouteIdentity);
+    @GetMapping
+    @RequestMapping("/bookings/{pageNumber}")
+    public List<BookingFastInformationDTO> getBookingFastInformation(@PathVariable int pageNumber){
+        return bookingService.getPageOfBookingsInformation(pageNumber);
     }
 
     @GetMapping
-    @RequestMapping("/bookings/{id}")
+    @RequestMapping("/booking/{id}")
     public BookingInformationDTO getActiveRoutes(@PathVariable long id){
         return bookingService.getBookingInformation(id);
     }

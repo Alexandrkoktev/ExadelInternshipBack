@@ -4,7 +4,6 @@ public class BookingAddingDTO {
     private long activeRouteId;
     private double[] meetPoint;
     private double[] destinationPoint;
-    private long userId;
 
     public long getActiveRouteId() {
         return activeRouteId;
@@ -30,11 +29,4 @@ public class BookingAddingDTO {
         this.destinationPoint = destinationPoint;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 }
