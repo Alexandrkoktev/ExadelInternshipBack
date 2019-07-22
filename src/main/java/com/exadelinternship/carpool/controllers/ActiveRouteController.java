@@ -1,9 +1,6 @@
 package com.exadelinternship.carpool.controllers;
 
-import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
+import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.services.ActiveRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +30,12 @@ public class ActiveRouteController {
     @RequestMapping("/deleteRoute")
     public void deleteActiveRoute(@Valid @RequestBody long id){
         deleteActiveRoute(id);
+    }
+
+    @PostMapping
+    @RequestMapping("/editRoute")
+    public void changeTime(@Valid @RequestBody ActiveRouteEditDTO activeRoute){
+        activeRouteService.changeTime(activeRoute);
     }
 
     @GetMapping
