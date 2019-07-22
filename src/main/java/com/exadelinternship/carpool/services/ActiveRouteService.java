@@ -2,13 +2,13 @@ package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
 import com.exadelinternship.carpool.adapters.RouteAdapter;
-import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
-import com.exadelinternship.carpool.dto.ActiveRouteInformationDTO;
+import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.*;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.*;
+import org.gavaghan.geodesy.GeodeticCalculator;
+import org.gavaghan.geodesy.GeodeticMeasurement;
+import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -43,6 +43,19 @@ public class ActiveRouteService {
         Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_Id(user.getId());
         return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(activeRoutes,pageNumber));
     }
+
+    public void changeTime(ActiveRouteEditDTO activeRouteEdit){
+
+        ActiveRoute activeRoute = activeRouteRepository.getOne(activeRouteEdit.getId());
+        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(activeRoute!=null && activeRoute.getUser().getId() == user.getId()){
+            activeRoute.setTimeAndDate(activeRouteEdit.getTimeAndDate());
+            activeRouteRepository.save(activeRoute);
+        } else{
+
+        }
+    }
+
 
     public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

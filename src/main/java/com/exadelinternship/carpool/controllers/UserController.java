@@ -3,6 +3,7 @@ package com.exadelinternship.carpool.controllers;
 
 
 import com.exadelinternship.carpool.dto.UserInformationDTO;
+import com.exadelinternship.carpool.dto.UserProfileDTO;
 import com.exadelinternship.carpool.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,4 +23,9 @@ public class UserController {
         return userService.getUserInformation();
     }
 
+    @GetMapping
+    @RequestMapping("/profile")
+    public UserProfileDTO getProfile(){
+        return userService.getProfile();
+    }
 }
