@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ActiveRouteController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class ActiveRouteController {
     @DeleteMapping
     @RequestMapping("/deleteRoute")
     public void deleteActiveRoute(@Valid @RequestBody long id){
-        deleteActiveRoute(id);
+        activeRouteService.deleteActiveRoute(id);
     }
 
     @PostMapping

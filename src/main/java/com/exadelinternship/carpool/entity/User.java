@@ -19,10 +19,10 @@ public class User {
     @Column(name="phoneNumber")
     private String phoneNumber;
 
-    @Column(name="rating_driver")
+    @Column(name="ratingDriver")
     private double ratingDriver;
 
-    @Column(name="rating_passenger")
+    @Column(name="ratingPassenger")
     private double ratingPassenger;
 
     @Column(name="password")
@@ -37,10 +37,10 @@ public class User {
     @Column(name="photoURL")
     private String photoUrl;
 
-    @Column(name="amountOfVoters_driver")
+    @Column(name="amountOfVotersDriver")
     private int amountOfVotersDriver;
 
-    @Column(name="amountOfVoters_passenger")
+    @Column(name="amountOfVotersPassenger")
     private int amountOfVotersPassenger;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
