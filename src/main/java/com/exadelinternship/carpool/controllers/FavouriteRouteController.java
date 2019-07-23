@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins ="*", allowedHeaders = "*")
 public class FavouriteRouteController {
     @Autowired
     FavouriteRouteService favouriteRouteService;
