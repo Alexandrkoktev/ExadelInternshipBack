@@ -29,10 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private AuthProvider authProvider;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
 
     @Bean
     PasswordEncoder passwordEncoder()
