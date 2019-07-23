@@ -45,7 +45,7 @@ public class RouteSearchHelper {
 
 
     }
-    static boolean isCloseEnough(double [] startPoint,double [] endPoint,double [][] wayPoints){
+    public  static boolean isCloseEnough(double [] startPoint,double [] endPoint,double [][] wayPoints){
         boolean flag=false;
         double length=wayPoints.length;
         for(int i=0;i<length-1;i++){
