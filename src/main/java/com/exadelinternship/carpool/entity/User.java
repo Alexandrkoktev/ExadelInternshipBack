@@ -19,8 +19,11 @@ public class User {
     @Column(name="phoneNumber")
     private String phoneNumber;
 
-    @Column(name="rating")
-    private double rating;
+    @Column(name="rating_driver")
+    private double ratingDriver;
+
+    @Column(name="rating_passenger")
+    private double ratingPassenger;
 
     @Column(name="password")
     private String password;
@@ -34,8 +37,11 @@ public class User {
     @Column(name="photoURL")
     private String photoUrl;
 
-    @Column(name="amountOfVoters")
-    private int amountOfVoters;
+    @Column(name="amountOfVoters_driver")
+    private int amountOfVotersDriver;
+
+    @Column(name="amountOfVoters_passenger")
+    private int amountOfVotersPassenger;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Car> cars;
@@ -115,16 +121,6 @@ public class User {
     }
 
 
-    public double getRating() {
-        return rating;
-    }
-
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-
     public String getPassword() {
         return password;
     }
@@ -158,12 +154,36 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
-    public int getAmountOfVoters() {
-        return amountOfVoters;
+    public double getRatingDriver() {
+        return ratingDriver;
     }
 
-    public void setAmountOfVoters(int amountOfVoters) {
-        this.amountOfVoters = amountOfVoters;
+    public void setRatingDriver(double ratingDriver) {
+        this.ratingDriver = ratingDriver;
+    }
+
+    public double getRatingPassenger() {
+        return ratingPassenger;
+    }
+
+    public void setRatingPassenger(double ratingPassenger) {
+        this.ratingPassenger = ratingPassenger;
+    }
+
+    public int getAmountOfVotersDriver() {
+        return amountOfVotersDriver;
+    }
+
+    public void setAmountOfVotersDriver(int amountOfVotersDriver) {
+        this.amountOfVotersDriver = amountOfVotersDriver;
+    }
+
+    public int getAmountOfVotersPassenger() {
+        return amountOfVotersPassenger;
+    }
+
+    public void setAmountOfVotersPassenger(int amountOfVotersPassenger) {
+        this.amountOfVotersPassenger = amountOfVotersPassenger;
     }
 
     public Set<ActiveRoute> getActiveRoutes() {
