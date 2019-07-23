@@ -28,7 +28,7 @@ public class ActiveRouteAdapter {
 
     public ActiveRoute activeRouteAddingDTOToActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO, Car car, Route route, User user){
         ActiveRoute activeRoute = new ActiveRoute();
-        activeRoute.setFreeSeats(activeRouteAddingDTO.getFreeSeats());
+        activeRoute.setFreeSeats(activeRouteAddingDTO.getMaxSeats());
         activeRoute.setCar(car);
         activeRoute.setRoute(route);
         activeRoute.setMaxSeats(activeRouteAddingDTO.getMaxSeats());
