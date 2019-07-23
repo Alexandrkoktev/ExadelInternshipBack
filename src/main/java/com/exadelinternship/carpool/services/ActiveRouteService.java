@@ -1,6 +1,7 @@
 package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
+import com.exadelinternship.carpool.adapters.NotificationAdapter;
 import com.exadelinternship.carpool.adapters.RouteAdapter;
 import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.*;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.print.DocFlavor;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 public class ActiveRouteService {
 
     private final int PAGE_SIZE = 10;
+    private final String DELETE_MESSAGE = "Route from %s to %s was deleted";
+    private final String EDIT_MESSAGE = "Time of route from %s to %s was changed from %s to %s";
 
     @Autowired
     ActiveRouteRepository activeRouteRepository;
@@ -37,6 +42,12 @@ public class ActiveRouteService {
     FavouriteRouteRepository favouriteRouteRepository;
     @Autowired
     RouteAdapter routeAdapter;
+    @Autowired
+    BookingRepository bookingRepository;
+    @Autowired
+    NotificationAdapter notificationAdapter;
+    @Autowired
+    NotificationRepository notificationRepository;
 
     public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(int pageNumber){
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,13 +60,13 @@ public class ActiveRouteService {
         ActiveRoute activeRoute = activeRouteRepository.getOne(activeRouteEdit.getId());
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(activeRoute!=null && activeRoute.getUser().getId() == user.getId()){
+            notifyAllOfChangingTime(activeRoute,activeRouteEdit.getTimeAndDate());
             activeRoute.setTimeAndDate(activeRouteEdit.getTimeAndDate());
             activeRouteRepository.save(activeRoute);
         } else{
 
         }
     }
-
 
     public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -87,7 +98,7 @@ public class ActiveRouteService {
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
         if(activeRoute!=null && activeRoute.getUser().getId()==user.getId()){
-            activeRouteRepository.delete(activeRoute);
+            deleteBookings(activeRoute);
         }
         else{
 
@@ -104,5 +115,34 @@ public class ActiveRouteService {
         activeRoutes.stream()
                 .forEach(x->activeRouteFastInformationDTOS.add(activeRouteAdapter.activeRouteToActiveRouteFastInformationDTO(x)));
         return activeRouteFastInformationDTOS;
+    }
+
+    private void deleteBookings(ActiveRoute activeRoute){
+        activeRoute.getBookings().stream().forEach(x->deleteBooking(x));
+    }
+
+    private void deleteBooking(Booking booking){
+        User user = booking.getUser();
+        ActiveRoute activeRoute = booking.getActiveRoute();
+        Notification notification = notificationAdapter.
+                createNotification(user,
+                        String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
+                                activeRoute.getRoute().getFinishPointName()),activeRoute);
+        notificationRepository.save(notification);
+        bookingRepository.delete(booking);
+    }
+
+    private void notifyAllOfChangingTime(ActiveRoute activeRoute, Timestamp newTime){
+        activeRoute.getBookings().stream().forEach(x->notifyOfChangingTime(x, newTime));
+    }
+    private void notifyOfChangingTime(Booking booking, Timestamp newTime){
+        User user = booking.getUser();
+        ActiveRoute activeRoute = booking.getActiveRoute();
+        Notification notification = notificationAdapter.
+                createNotification(user,String.format(EDIT_MESSAGE,
+                        activeRoute.getRoute().getStartPointName(),
+                        activeRoute.getRoute().getFinishPointName(),
+                        activeRoute.getTimeAndDate().toString(),newTime.toString()),activeRoute);
+        notificationRepository.save(notification);
     }
 }

@@ -12,13 +12,14 @@ import javax.validation.Valid;
 
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     UserService userService;
 
     @GetMapping
-    @RequestMapping("/main")
+    @RequestMapping("/home")
     public UserInformationDTO getUserInformation(){
         return userService.getUserInformation();
     }
