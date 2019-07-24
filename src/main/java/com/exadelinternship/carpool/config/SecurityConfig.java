@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/api/login")
                 .permitAll()
-                .and().logout().logoutUrl("/api/logout").logoutSuccessUrl("/").permitAll();
+                .and().logout().logoutUrl("/api/logout").permitAll();
         http.csrf().disable();
         http.formLogin().usernameParameter("j_username")
                 .passwordParameter("j_password");
