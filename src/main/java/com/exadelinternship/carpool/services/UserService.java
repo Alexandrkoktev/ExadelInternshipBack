@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.UserAdapter;
 import com.exadelinternship.carpool.dto.UserInformationDTO;
+import com.exadelinternship.carpool.dto.UserListsDTO;
 import com.exadelinternship.carpool.dto.UserProfileDTO;
 import com.exadelinternship.carpool.entity.User;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
@@ -36,6 +37,16 @@ public class UserService {
         Optional<User> user = userRepository.findById(principal.getId());
         if(user.isPresent()){
             return userAdapter.userToUserProfileDTO(user.get());
+        } else{
+            return null;
+        }
+    }
+
+    public UserListsDTO getLists(){
+        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> user = userRepository.findById(principal.getId());
+        if(user.isPresent()){
+            return userAdapter.userToUserListDTO(user.get());
         } else{
             return null;
         }

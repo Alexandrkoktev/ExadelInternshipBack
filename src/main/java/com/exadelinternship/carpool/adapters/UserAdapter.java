@@ -1,9 +1,6 @@
 package com.exadelinternship.carpool.adapters;
 
-import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
-import com.exadelinternship.carpool.dto.BookingFastInformationDTO;
-import com.exadelinternship.carpool.dto.UserInformationDTO;
-import com.exadelinternship.carpool.dto.UserProfileDTO;
+import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.Notification;
@@ -34,6 +31,13 @@ public class UserAdapter {
         userDTO.setRole(user.getRole());
         userDTO.setAllNotificationsChecked(isChecked(user.getNotifications()));
         return userDTO;
+    }
+
+    public UserListsDTO userToUserListDTO(User user){
+        UserListsDTO userListsDTO = new UserListsDTO();
+        userListsDTO.setActiveRoutes(getFirstActiveRoutes(user.getActiveRoutes(),AMOUNT_OF_NOTES));
+        userListsDTO.setBookings(getFirstBookings(user.getBookings(),AMOUNT_OF_NOTES));
+        return userListsDTO;
     }
 
     private boolean isChecked(Set<Notification> notifications){
