@@ -54,7 +54,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and().formLogin().loginPage("/api/login")
                 .permitAll()
                 .and().logout().logoutUrl("/api/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK) )
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+                        response.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
+                        response.setHeader("Access-Control-Allow-Headers", "*");
+                        response.setHeader("Access-Control-Allow-Credentials", "true");
+                        response.setHeader("Access-Control-Max-Age", "180");
+                    }
+                })
                 .permitAll();
         http.csrf().disable();
         http.formLogin().usernameParameter("j_username")
