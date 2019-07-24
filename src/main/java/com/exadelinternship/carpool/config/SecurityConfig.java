@@ -1,5 +1,6 @@
 package com.exadelinternship.carpool.config;
 
+import com.exadelinternship.carpool.entity.enums.UserRole;
 import com.exadelinternship.carpool.services.AuthProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class);
         http
                 .authorizeRequests()
+                .antMatchers("/api/statistic").hasRole("ADMINISTRATOR")
                 .antMatchers().permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/api/login")

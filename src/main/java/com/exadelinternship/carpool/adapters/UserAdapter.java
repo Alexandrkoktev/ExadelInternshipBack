@@ -78,4 +78,15 @@ public class UserAdapter {
         userDetails.setRole(Collections.singleton(user.getRole()));
         return userDetails;
     }
+
+    public UserStatisticDTO userToUserStatisticDTO(User user){
+        UserStatisticDTO userStatistic = new UserStatisticDTO();
+        userStatistic.setAmountOfBookings(user.getAmountOfBookings());
+        userStatistic.setAmountOfPassengers(user.getAmountOfPassengers());
+        userStatistic.setAmountOfRoutes(user.getAmountOfRoutes());
+        userStatistic.setDistance(user.getDistance());
+        userStatistic.setId(user.getId());
+        userStatistic.setName(user.getName());
+        return userStatistic;
+    }
 }
