@@ -1,9 +1,12 @@
 package com.exadelinternship.carpool.dto;
 
+import java.sql.Timestamp;
+
 public class BookingAddingDTO {
     private long activeRouteId;
     private double[] meetPoint;
     private double[] destinationPoint;
+    private Timestamp datetime;
 
     public long getActiveRouteId() {
         return activeRouteId;
@@ -29,4 +32,11 @@ public class BookingAddingDTO {
         this.destinationPoint = destinationPoint;
     }
 
+    public Timestamp getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Timestamp datetime) {
+        this.datetime = datetime;
+    }
 }

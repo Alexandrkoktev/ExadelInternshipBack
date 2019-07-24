@@ -22,6 +22,12 @@ public class FavouriteRouteController {
         return  favouriteRouteService.getAllFavouriteRoutes();
     }
 
+    @GetMapping("/addroute/favouriteroutes")
+    @ResponseBody
+    public List<FavouriteRouteDTO> getAllFavouriteRoute(){
+        return  favouriteRouteService.getAllFavouriteRoutes();
+    }
+
     public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO){
         favouriteRouteService.saveFavouriteRoute(favouriteRouteDTO);
     }

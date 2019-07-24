@@ -19,7 +19,7 @@ public class CarController {
         return  carService.getAllCars();
     }
 
-    @GetMapping("/newRoute/cars")
+    @GetMapping("/addRoute/cars")
     @ResponseBody
     public List<CarDTO> getAllCarRoute(){
         return  carService.getAllCars();

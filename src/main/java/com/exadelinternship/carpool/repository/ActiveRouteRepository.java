@@ -4,7 +4,7 @@ import com.exadelinternship.carpool.entity.ActiveRoute;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
