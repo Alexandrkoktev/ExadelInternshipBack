@@ -1,11 +1,11 @@
 package com.exadelinternship.carpool.dto;
 
-import com.exadelinternship.carpool.entity.Route;
-
 public class FavouriteRouteDTO {
     private long id;
     private String name;
-    private Route route;
+    private long routeId;
+    private String startPointName;
+    private String endPointName;
 
     public long getId() {
         return id;
@@ -23,11 +23,27 @@ public class FavouriteRouteDTO {
         this.name = name;
     }
 
-    public Route getRoute() {
-        return route;
+    public long getRouteId() {
+        return routeId;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setRouteId(long routeId) {
+        this.routeId = routeId;
+    }
+
+    public String getStartPointName() {
+        return startPointName;
+    }
+
+    public void setStartPointName(String startPointName) {
+        this.startPointName = startPointName;
+    }
+
+    public String getEndPointName() {
+        return endPointName;
+    }
+
+    public void setEndPointName(String endPointName) {
+        this.endPointName = endPointName;
     }
 }

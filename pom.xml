@@ -7,7 +7,7 @@
     <groupId>com.exadelInternship</groupId>
     <artifactId>com.exadelInternship.carpool</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>carpool</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -61,6 +61,10 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
         </dependency>
     </dependencies>
     <build>
