@@ -31,11 +31,8 @@ public class UserAdapter {
     public UserInformationDTO userToUserInformationDto(User user){
         UserInformationDTO userDTO = new UserInformationDTO();
         userDTO.setName(user.getName());
-        userDTO.setPhotoURL(user.getPhotoUrl());
         userDTO.setRole(user.getRole());
         userDTO.setAllNotificationsChecked(isChecked(user.getNotifications()));
-        userDTO.setActiveRoutes(getFirstActiveRoutes(user.getActiveRoutes(), AMOUNT_OF_NOTES));
-        userDTO.setBookings(getFirstBookings(user.getBookings(), AMOUNT_OF_NOTES));
         return userDTO;
     }
 
