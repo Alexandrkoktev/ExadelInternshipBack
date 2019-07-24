@@ -11,15 +11,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.session.SessionManagementFilter;
 
+
+import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 
 @Configuration
@@ -34,10 +33,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
     }
+    @Bean
+    Filter corsFilter() {
+        CorsFilter filter = new CorsFilter();
+        return filter;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        http
+                .addFilterBefore(corsFilter(), SessionManagementFilter.class);
         http
                 .authorizeRequests()
                 .antMatchers().permitAll()
@@ -45,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and().formLogin().loginPage("/api/login")
                 .permitAll()
                 .and().logout().logoutUrl("/api/logout").logoutSuccessUrl("/").permitAll();
-        http.cors().and().csrf().disable();
+        http.csrf().disable();
         http.formLogin().usernameParameter("j_username")
                 .passwordParameter("j_password");
         http.formLogin().successHandler(new AuthenticationSuccessHandler() {
