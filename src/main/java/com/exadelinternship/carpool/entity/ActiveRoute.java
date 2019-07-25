@@ -23,7 +23,7 @@ public class ActiveRoute {
     @Column(name="enabled")
     private boolean enabled;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "route_fk")
     private Route route;
 
@@ -115,4 +115,11 @@ public class ActiveRoute {
         this.notifications = notifications;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

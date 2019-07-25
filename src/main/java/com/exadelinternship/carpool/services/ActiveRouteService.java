@@ -11,6 +11,7 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticMeasurement;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +100,8 @@ public class ActiveRouteService {
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
         if(activeRoute!=null && activeRoute.getUser().getId()==user.getId()){
             deleteBookings(activeRoute);
+            activeRoute.setEnabled(false);
+            activeRouteRepository.save(activeRoute);
         }
         else{
 
@@ -144,5 +147,17 @@ public class ActiveRouteService {
                         activeRoute.getRoute().getFinishPointName(),
                         activeRoute.getTimeAndDate().toString(),newTime.toString()),activeRoute);
         notificationRepository.save(notification);
+    }
+
+    @Scheduled(fixedRate = 600000)
+    public void disablingRoutes(){
+        System.out.println(System.currentTimeMillis()+100000);
+        Set<ActiveRoute> A = activeRouteRepository.getAllByEnabled(true);
+                A.stream().forEach(x->{
+            if(System.currentTimeMillis()>x.getTimeAndDate().getTime()+x.getRoute().getDuration()){
+                x.setEnabled(false);
+                activeRouteRepository.save(x);
+            }
+        });
     }
 }
