@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 
 public class ActiveRouteAddingDTO {
     private Timestamp timeAndDate;
+    private long duration;
     private short maxSeats;
     private long carId;
     private boolean favourite;
@@ -121,5 +122,13 @@ public class ActiveRouteAddingDTO {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

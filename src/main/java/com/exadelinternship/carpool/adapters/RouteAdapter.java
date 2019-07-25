@@ -18,6 +18,7 @@ public class RouteAdapter {
         route.setUser(user);
         route.setViaPoints(activeRouteAddingDTO.getViaPoints());
         route.setWayPoints(activeRouteAddingDTO.getWayPoints());
+        route.setDuration(activeRouteAddingDTO.getDuration());
         return route;
     }
 }

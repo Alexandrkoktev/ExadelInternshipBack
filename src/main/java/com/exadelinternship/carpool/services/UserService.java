@@ -4,6 +4,7 @@ import com.exadelinternship.carpool.adapters.UserAdapter;
 import com.exadelinternship.carpool.dto.UserInformationDTO;
 import com.exadelinternship.carpool.dto.UserListsDTO;
 import com.exadelinternship.carpool.dto.UserProfileDTO;
+import com.exadelinternship.carpool.dto.UserStatisticDTO;
 import com.exadelinternship.carpool.entity.User;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.UserRepository;
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -62,4 +66,13 @@ public class UserService {
         }
     }
 
+    public List<UserStatisticDTO> getUsersStatistic(){
+        return usersToUsersStatistic(userRepository.findAll());
+    }
+
+    private List<UserStatisticDTO> usersToUsersStatistic(List<User> users){
+        List<UserStatisticDTO> usersStatistic = new ArrayList<>();
+        users.stream().forEach(x->usersStatistic.add(userAdapter.userToUserStatisticDTO(x)));
+        return usersStatistic;
+    }
 }

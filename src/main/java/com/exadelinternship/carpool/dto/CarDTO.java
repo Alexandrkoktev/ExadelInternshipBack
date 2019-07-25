@@ -3,7 +3,6 @@ package com.exadelinternship.carpool.dto;
 public class CarDTO {
     private long id;
     private String carInformation;
-    private int capacity;
 
     public long getId() {
         return id;
@@ -19,14 +18,6 @@ public class CarDTO {
 
     public void setCarInformation(String carInformation) {
         this.carInformation = carInformation;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     @Override

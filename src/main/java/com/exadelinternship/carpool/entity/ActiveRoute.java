@@ -20,6 +20,9 @@ public class ActiveRoute {
     @Column(name="freeSeats")
     private short freeSeats;
 
+    @Column(name="enabled")
+    private boolean enabled;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_fk")
     private Route route;
@@ -37,6 +40,7 @@ public class ActiveRoute {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
+
 
     public long getId() {
         return id;
