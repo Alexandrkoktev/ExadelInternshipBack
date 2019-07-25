@@ -23,6 +23,12 @@ public class Booking {
     @Column(name="destinationPoint")
     private double[] destinationPoint;
 
+    @Column(name="driverRating")
+    private double driverRating;
+
+    @Column(name="passengerRating")
+    private double passengerRating;
+
     public long getId() {
         return id;
     }
@@ -61,5 +67,21 @@ public class Booking {
 
     public void setDestinationPoint(double[] destinationPoint) {
         this.destinationPoint = destinationPoint;
+    }
+
+    public double getDriverRating() {
+        return driverRating;
+    }
+
+    public void setDriverRating(double driverRating) {
+        this.driverRating = driverRating;
+    }
+
+    public double getPassengerRating() {
+        return passengerRating;
+    }
+
+    public void setPassengerRating(double passengerRating) {
+        this.passengerRating = passengerRating;
     }
 }

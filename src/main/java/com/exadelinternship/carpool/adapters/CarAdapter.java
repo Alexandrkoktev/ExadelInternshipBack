@@ -16,7 +16,6 @@ public class CarAdapter {
     public Car carDtoToCar(CarDTO carDTO,long userId){
         Car car=new Car();
         car.setCarInformation(carDTO.getCarInformation());
-        car.setMaxSeats(carDTO.getCapacity());
         car.setId(carDTO.getId());
         car.setUser(userRepository.getOne(userId));
         return car;
@@ -24,7 +23,6 @@ public class CarAdapter {
 
     public CarDTO carToCarDto(Car car){
         CarDTO carDTO=new CarDTO();
-        carDTO.setCapacity(car.getMaxSeats());
         carDTO.setCarInformation(car.getCarInformation());
         carDTO.setId(car.getId());
         return carDTO;

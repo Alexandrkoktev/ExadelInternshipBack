@@ -17,9 +17,6 @@ public class Car {
     @Column(name="carInformation")
     private String carInformation;
 
-    @Column(name="maxSeats")
-    private int maxSeats;
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy="car")
     private Set<ActiveRoute> activeRoutes;
 
@@ -45,14 +42,6 @@ public class Car {
 
     public void setCarInformation(String carInformation) {
         this.carInformation = carInformation;
-    }
-
-    public int getMaxSeats() {
-        return maxSeats;
-    }
-
-    public void setMaxSeats(int maxSeats) {
-        this.maxSeats = maxSeats;
     }
 
     public Set<ActiveRoute> getActiveRoutes() {
