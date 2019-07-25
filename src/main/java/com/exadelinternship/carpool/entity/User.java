@@ -19,10 +19,10 @@ public class User {
     @Column(name="phoneNumber")
     private String phoneNumber;
 
-    @Column(name="rating_driver")
+    @Column(name="ratingDriver")
     private double ratingDriver;
 
-    @Column(name="rating_passenger")
+    @Column(name="ratingPassenger")
     private double ratingPassenger;
 
     @Column(name="password")
@@ -37,11 +37,23 @@ public class User {
     @Column(name="photoURL")
     private String photoUrl;
 
-    @Column(name="amountOfVoters_driver")
+    @Column(name="amountOfVotersDriver")
     private int amountOfVotersDriver;
 
-    @Column(name="amountOfVoters_passenger")
+    @Column(name="amountOfVotersPassenger")
     private int amountOfVotersPassenger;
+
+    @Column(name="distance")
+    private double distance;
+
+    @Column(name="amountOfPassengers")
+    private int amountOfPassengers;
+
+    @Column(name="amountOfBookings")
+    private int amountOfBookings;
+
+    @Column(name="amountOfRoutes")
+    private int amountOfRoutes;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private Set<Car> cars;
@@ -200,5 +212,37 @@ public class User {
 
     public void setBookings(Set<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public int getAmountOfPassengers() {
+        return amountOfPassengers;
+    }
+
+    public void setAmountOfPassengers(int amountOfPassengers) {
+        this.amountOfPassengers = amountOfPassengers;
+    }
+
+    public int getAmountOfBookings() {
+        return amountOfBookings;
+    }
+
+    public void setAmountOfBookings(int amountOfBookings) {
+        this.amountOfBookings = amountOfBookings;
+    }
+
+    public int getAmountOfRoutes() {
+        return amountOfRoutes;
+    }
+
+    public void setAmountOfRoutes(int amountOfRoutes) {
+        this.amountOfRoutes = amountOfRoutes;
     }
 }

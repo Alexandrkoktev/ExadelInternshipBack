@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 public class ActiveRouteAddingDTO {
     private Timestamp timeAndDate;
+    private long duration;
     private short maxSeats;
-    private short freeSeats;
     private long carId;
     private boolean favourite;
     private long favouriteRouteId;
@@ -50,14 +50,6 @@ public class ActiveRouteAddingDTO {
 
     public void setMaxSeats(short maxSeats) {
         this.maxSeats = maxSeats;
-    }
-
-    public short getFreeSeats() {
-        return freeSeats;
-    }
-
-    public void setFreeSeats(short freeSeats) {
-        this.freeSeats = freeSeats;
     }
 
     public long getCarId() {
@@ -130,5 +122,13 @@ public class ActiveRouteAddingDTO {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

@@ -34,6 +34,9 @@ public class Route {
     @Column(name="distance",nullable=false)
     private double distance;
 
+    @Column(name="duration",nullable=false)
+    private long duration;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk")
     private User user;
@@ -129,5 +132,11 @@ public class Route {
         this.activeRoutes = activeRoutes;
     }
 
+    public long getDuration() {
+        return duration;
+    }
 
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
 }

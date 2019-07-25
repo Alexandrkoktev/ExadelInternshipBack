@@ -47,21 +47,30 @@ public class RouteSearchHelper {
     }
     public  static boolean isCloseEnough(double [] startPoint,double [] endPoint,double [][] wayPoints){
         boolean flag=false;
+        double minStart=1;
+        double minEnd=1;
+        double startDistance=0;
+        double endDistance=0;
         double length=wayPoints.length;
         for(int i=0;i<length-1;i++){
-            if(!flag&&DistanceFromPointToSegment(startPoint,wayPoints[i],wayPoints[i+1])<1){
+            startDistance=DistanceFromPointToSegment(startPoint,wayPoints[i],wayPoints[i+1]);
+            if(startDistance<minStart){
                 flag=true;
+                minStart=startDistance;
             }
-            if(flag&&DistanceFromPointToSegment(endPoint,wayPoints[i],wayPoints[i+1])<1){
-                return true;
+            if(flag){
+               endDistance=DistanceFromPointToSegment(endPoint,wayPoints[i],wayPoints[i+1]);
+               if(endDistance<minEnd){
+                   minEnd=endDistance;
+               }
             }
         }
-        return false;
+        return (minStart+minEnd)<1;
     }
 
     static public void main(String[] args)
     {
-        System.out.println(isCloseEnough(new double [] {1,2},new double [] {2,3},new double[][]{{1,2},{2,3}}));
+        //System.out.println(isCloseEnough(new double [] {1,2},new double [] {2,3},new double[][]{{1,3},{2,3}}));
         //System.out.println( TwoDimensionalCalculation(new double []{2,3},new double[]{3,4}));
        // System.out.println(DistanceFromPointToSegment(new double []{10,22},new double[]{3,4},new double[]{2,3}));
 

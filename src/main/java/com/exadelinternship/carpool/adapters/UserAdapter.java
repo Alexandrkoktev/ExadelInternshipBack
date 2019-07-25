@@ -1,9 +1,6 @@
 package com.exadelinternship.carpool.adapters;
 
-import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
-import com.exadelinternship.carpool.dto.BookingFastInformationDTO;
-import com.exadelinternship.carpool.dto.UserInformationDTO;
-import com.exadelinternship.carpool.dto.UserProfileDTO;
+import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.Notification;
@@ -31,12 +28,16 @@ public class UserAdapter {
     public UserInformationDTO userToUserInformationDto(User user){
         UserInformationDTO userDTO = new UserInformationDTO();
         userDTO.setName(user.getName());
-        userDTO.setPhotoURL(user.getPhotoUrl());
         userDTO.setRole(user.getRole());
         userDTO.setAllNotificationsChecked(isChecked(user.getNotifications()));
-        userDTO.setActiveRoutes(getFirstActiveRoutes(user.getActiveRoutes(), AMOUNT_OF_NOTES));
-        userDTO.setBookings(getFirstBookings(user.getBookings(), AMOUNT_OF_NOTES));
         return userDTO;
+    }
+
+    public UserListsDTO userToUserListDTO(User user){
+        UserListsDTO userListsDTO = new UserListsDTO();
+        userListsDTO.setActiveRoutes(getFirstActiveRoutes(user.getActiveRoutes(),AMOUNT_OF_NOTES));
+        userListsDTO.setBookings(getFirstBookings(user.getBookings(),AMOUNT_OF_NOTES));
+        return userListsDTO;
     }
 
     private boolean isChecked(Set<Notification> notifications){
@@ -76,5 +77,16 @@ public class UserAdapter {
         userDetails.setUsername(user.getLogin());
         userDetails.setRole(Collections.singleton(user.getRole()));
         return userDetails;
+    }
+
+    public UserStatisticDTO userToUserStatisticDTO(User user){
+        UserStatisticDTO userStatistic = new UserStatisticDTO();
+        userStatistic.setAmountOfBookings(user.getAmountOfBookings());
+        userStatistic.setAmountOfPassengers(user.getAmountOfPassengers());
+        userStatistic.setAmountOfRoutes(user.getAmountOfRoutes());
+        userStatistic.setDistance(user.getDistance());
+        userStatistic.setId(user.getId());
+        userStatistic.setName(user.getName());
+        return userStatistic;
     }
 }

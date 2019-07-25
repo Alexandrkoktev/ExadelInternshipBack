@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CarController {
     @Autowired
     private CarService carService;
@@ -27,14 +28,14 @@ public class CarController {
 
     @PostMapping("/profile/cars")
     @ResponseBody
-    public void addCar(@Valid @RequestBody CarDTO carDTO){
-        carService.saveCar(carDTO);
+    public void addCar(@Valid @RequestBody String carInfo){
+        carService.saveCar(carInfo);
     }
 
     @PutMapping("/profile/cars/{id}")
     @ResponseBody
     public void updateCar(@Valid @RequestBody CarDTO carDTO){
-        carService.saveCar(carDTO);
+        carService.editCar(carDTO);
     }
 
     @DeleteMapping("/profile/cars/{id}")

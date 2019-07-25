@@ -26,7 +26,13 @@ public class NotificationService {
     public List<NotificationDTO> getAllNotifications(){
         List<NotificationDTO> result=new ArrayList<>();
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        notificationRepository.findAllByUser_Id(userId).forEach(notif -> result.add(notificationAdapter.notifToNotifDTO(notif)));
+        notificationRepository.findAllByUser_Id(userId).forEach(notif -> {
+            result.add(notificationAdapter.notifToNotifDTO(notif));
+            if(!notif.isChecked()){
+                notif.setChecked(true);
+                notificationRepository.save(notif);
+            }
+        });
         return result;
     }
 
@@ -35,5 +41,6 @@ public class NotificationService {
         Notification notification=notificationAdapter.notifDtoToNotif(notificationDTO,userId);
         notificationRepository.save(notification);
     }
+
 
 }
