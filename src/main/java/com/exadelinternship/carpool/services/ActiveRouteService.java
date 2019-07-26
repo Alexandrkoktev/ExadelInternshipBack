@@ -28,8 +28,8 @@ public class ActiveRouteService {
 
     private final String DELETE_MESSAGE = "Route from %s to %s was deleted";
     private final String EDIT_MESSAGE = "Time of route from %s to %s was changed from %s to %s";
-    private final String RATE_DRIVER = "You can rate your passengers";
-    private final String RATE_PASSENGER = "You can rate your driver";
+    private final String RATE_DRIVER = "You can rate your passengers on route from %s to %s";
+    private final String RATE_PASSENGER = "You can rate your driver on route from %s to %s";
 
     @Autowired
     ActiveRouteRepository activeRouteRepository;
@@ -119,6 +119,7 @@ public class ActiveRouteService {
 
     private void deleteBookings(ActiveRoute activeRoute){
         activeRoute.getBookings().stream().forEach(x->deleteBooking(x));
+        activeRoute.getBookings().clear();
     }
 
     private void deleteBooking(Booking booking){
@@ -161,13 +162,14 @@ public class ActiveRouteService {
             if(System.currentTimeMillis()>x.getTimeAndDate().getTime()+x.getRoute().getDuration()){
                 x.setEnabled(false);
                 x.getBookings().stream().forEach(y->{User user = y.getUser();
-                    Notification notification = notificationAdapter.createNotification(user,RATE_PASSENGER,x);
+                    Notification notification = notificationAdapter.createNotification(user,String.format(RATE_PASSENGER, x.getRoute().getStartPointName(),x.getRoute().getFinishPointName()),x);
                     notificationRepository.save(notification);
                     user.setAmountOfBookings(user.getAmountOfBookings()+1);
                     userRepository.save(user);
                 });
                 User user = x.getUser();
-                Notification notification = notificationAdapter.createNotification(user,RATE_DRIVER,x);
+                Notification notification = notificationAdapter
+                        .createNotification(user,String.format(RATE_DRIVER, x.getRoute().getStartPointName(),x.getRoute().getFinishPointName()),x);
                 notificationRepository.save(notification);
                 user.setAmountOfPassengers(user.getAmountOfPassengers()+x.getMaxSeats()-x.getFreeSeats());
                 user.setDistance(user.getDistance()+x.getRoute().getDistance());
