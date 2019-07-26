@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 })
                 .permitAll();
         http.csrf().disable();
+        http.cors().disable();
         http.formLogin().usernameParameter("j_username")
                 .passwordParameter("j_password");
         http.formLogin().successHandler(new AuthenticationSuccessHandler() {

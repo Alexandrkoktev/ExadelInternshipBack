@@ -1,7 +1,6 @@
 package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.BookingAdapter;
-import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
 import com.exadelinternship.carpool.dto.BookingAddingDTO;
 import com.exadelinternship.carpool.dto.BookingFastInformationDTO;
 import com.exadelinternship.carpool.dto.BookingInformationDTO;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 @Service
 public class BookingService {
 
-    private final int PAGE_SIZE = 10;
-
     @Autowired
     BookingAdapter bookingAdapter;
     @Autowired
@@ -35,10 +32,10 @@ public class BookingService {
     @Autowired
     ActiveRouteRepository activeRouteRepository;
 
-    public List<BookingFastInformationDTO> getPageOfBookingsInformation(int pageNumber){
+    public List<BookingFastInformationDTO> getPageOfBookingsInformation(){
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Set<Booking> bookings = bookingRepository.getByUser_Id(user.getId());
-        return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(bookings,pageNumber));
+        Set<Booking> bookings = bookingRepository.getByUser_IdAndActiveRoute_Enabled(user.getId(), true);
+        return bookingsToBookingsFastInformation(bookings.stream().collect(Collectors.toList()));
     }
 
     public BookingInformationDTO getBookingInformation(long id){
@@ -76,15 +73,18 @@ public class BookingService {
         }
     }
 
-    private List<Booking> getPageOfActiveRoutes(Set<Booking> activeRoutes, int pageNumber){
-        return activeRoutes.stream()
-                .sorted((x,y)->{return x.getActiveRoute().getTimeAndDate().compareTo(y.getActiveRoute().getTimeAndDate());})
-                .skip(pageNumber*PAGE_SIZE).limit(PAGE_SIZE).collect(Collectors.toList());
-    }
-    private List<BookingFastInformationDTO> activeRoutesToActiveRoutesFastInformation(List<Booking> activeRoutes){
+    private List<BookingFastInformationDTO> bookingsToBookingsFastInformation(List<Booking> activeRoutes){
         List<BookingFastInformationDTO> bookingFastInformationDTOS = new ArrayList<>();
         activeRoutes.stream()
                 .forEach(x->bookingFastInformationDTOS.add(bookingAdapter.bookingToBookingFastInformationDTO(x)));
         return bookingFastInformationDTOS;
+    }
+
+    public List<BookingFastInformationDTO> getHistory(){
+        UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Booking> bookings = bookingRepository.getByUser_IdAndActiveRoute_Enabled(user.getId(),false)
+                .stream().collect(Collectors.toList());
+        return bookingsToBookingsFastInformation(bookings);
+
     }
 }

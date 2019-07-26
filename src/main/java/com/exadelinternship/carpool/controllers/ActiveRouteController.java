@@ -16,9 +16,15 @@ public class ActiveRouteController {
     private ActiveRouteService activeRouteService;
 
     @GetMapping
-    @RequestMapping("/activeRoutes/{pageNumber}")
-    public List<ActiveRouteFastInformationDTO> getActiveRoutesFastInformation(@PathVariable int pageNumber){
-        return activeRouteService.getPageOfActiveRoutesInformation(pageNumber);
+    @RequestMapping("/activeRoutes")
+    public List<ActiveRouteFastInformationDTO> getActiveRoutesFastInformation(){
+        return activeRouteService.getPageOfActiveRoutesInformation();
+    }
+
+    @GetMapping
+    @RequestMapping("/activeRoutes/history")
+    public List<ActiveRouteFastInformationDTO> getActiveRouteHistory(){
+        return activeRouteService.getHistory();
     }
 
     @PostMapping

@@ -23,7 +23,7 @@ public class ActiveRoute {
     @Column(name="enabled")
     private boolean enabled;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_fk")
     private Route route;
 

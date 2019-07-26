@@ -8,5 +8,5 @@ import java.util.Set;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long> {
-    Set<Booking> getByUser_Id(Long id);
+    Set<Booking> getByUser_IdAndActiveRoute_Enabled(Long id, boolean enabled);
 }
