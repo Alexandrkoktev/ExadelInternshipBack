@@ -2,6 +2,8 @@ package com.exadelinternship.carpool.controllers;
 
 import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.services.ActiveRouteService;
+import com.exadelinternship.carpool.services.RouteSearchService;
+import com.exadelinternship.carpool.services.helpers.RouteSearchHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,9 @@ public class ActiveRouteController {
 
     @Autowired
     private ActiveRouteService activeRouteService;
+
+    @Autowired
+    private RouteSearchService routeSearchService;
 
     @GetMapping
     @RequestMapping("/activeRoutes/{pageNumber}")
@@ -43,5 +48,11 @@ public class ActiveRouteController {
     @RequestMapping("/activeRoute/{id}")
     public ActiveRouteInformationDTO getActiveRoutes(@PathVariable long id){
         return activeRouteService.getActiveRouteInformation(id);
+    }
+    
+    @PostMapping
+    @RequestMapping("/searchRoutes")
+    public List<ActiveRouteFastInformationDTO> searchRoutes(@Valid @RequestBody BookingAddingDTO booking){
+        return  routeSearchService.getRoutes(booking);
     }
 }
