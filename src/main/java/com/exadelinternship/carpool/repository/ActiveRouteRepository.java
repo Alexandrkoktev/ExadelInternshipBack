@@ -10,6 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface ActiveRouteRepository extends JpaRepository<ActiveRoute,Long> {
+    Set<ActiveRoute> getByUser_IdAndEnabled(Long id, boolean enabled);
+    Set<ActiveRoute> getAllByEnabled(boolean enabled);
     Set<ActiveRoute> getByUser_Id(Long id);
     List<ActiveRoute> getByRouteAfter(Timestamp datetime);
 }

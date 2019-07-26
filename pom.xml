@@ -53,6 +53,10 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-core</artifactId>
+            </dependency>
         <dependency>
             <groupId>org.gavaghan</groupId>
             <artifactId>geodesy</artifactId>

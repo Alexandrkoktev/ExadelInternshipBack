@@ -18,9 +18,9 @@ public class BookingController {
     BookingService bookingService;
 
     @GetMapping
-    @RequestMapping("/bookings/{pageNumber}")
-    public List<BookingFastInformationDTO> getBookingFastInformation(@PathVariable int pageNumber){
-        return bookingService.getPageOfBookingsInformation(pageNumber);
+    @RequestMapping("/bookings")
+    public List<BookingFastInformationDTO> getBookingFastInformation(){
+        return bookingService.getPageOfBookingsInformation();
     }
 
     @GetMapping
@@ -35,6 +35,11 @@ public class BookingController {
         bookingService.deleteBooking(id);
     }
 
+    @GetMapping
+    @RequestMapping("/bookings/history")
+    public List<BookingFastInformationDTO> getHistory(){
+        return bookingService.getHistory();
+    }
 
     @PostMapping
     @RequestMapping("/createBooking")

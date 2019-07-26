@@ -11,8 +11,10 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticMeasurement;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.print.DocFlavor;
 import java.sql.Timestamp;
@@ -24,9 +26,10 @@ import java.util.stream.Collectors;
 @Service
 public class ActiveRouteService {
 
-    private final int PAGE_SIZE = 10;
     private final String DELETE_MESSAGE = "Route from %s to %s was deleted";
     private final String EDIT_MESSAGE = "Time of route from %s to %s was changed from %s to %s";
+    private final String RATE_DRIVER = "You can rate your passengers";
+    private final String RATE_PASSENGER = "You can rate your driver";
 
     @Autowired
     ActiveRouteRepository activeRouteRepository;
@@ -49,10 +52,10 @@ public class ActiveRouteService {
     @Autowired
     NotificationRepository notificationRepository;
 
-    public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(int pageNumber){
+    public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(){
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_Id(user.getId());
-        return activeRoutesToActiveRoutesFastInformation(getPageOfActiveRoutes(activeRoutes,pageNumber));
+        Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_IdAndEnabled(user.getId(), true);
+        return activeRoutesToActiveRoutesFastInformation(activeRoutes.stream().collect(Collectors.toList()));
     }
 
     public void changeTime(ActiveRouteEditDTO activeRouteEdit){
@@ -99,17 +102,14 @@ public class ActiveRouteService {
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
         if(activeRoute!=null && activeRoute.getUser().getId()==user.getId()){
             deleteBookings(activeRoute);
+            activeRoute.setEnabled(false);
+            activeRouteRepository.save(activeRoute);
         }
         else{
 
         }
     }
 
-    private List<ActiveRoute> getPageOfActiveRoutes(Set<ActiveRoute> activeRoutes, int pageNumber){
-        return activeRoutes.stream()
-                .sorted((x,y)->{return x.getTimeAndDate().compareTo(y.getTimeAndDate());})
-                .skip(pageNumber*PAGE_SIZE).limit(PAGE_SIZE).collect(Collectors.toList());
-    }
     private List<ActiveRouteFastInformationDTO> activeRoutesToActiveRoutesFastInformation(List<ActiveRoute> activeRoutes){
         List<ActiveRouteFastInformationDTO> activeRouteFastInformationDTOS = new ArrayList<>();
         activeRoutes.stream()
@@ -135,6 +135,7 @@ public class ActiveRouteService {
     private void notifyAllOfChangingTime(ActiveRoute activeRoute, Timestamp newTime){
         activeRoute.getBookings().stream().forEach(x->notifyOfChangingTime(x, newTime));
     }
+
     private void notifyOfChangingTime(Booking booking, Timestamp newTime){
         User user = booking.getUser();
         ActiveRoute activeRoute = booking.getActiveRoute();
@@ -144,5 +145,35 @@ public class ActiveRouteService {
                         activeRoute.getRoute().getFinishPointName(),
                         activeRoute.getTimeAndDate().toString(),newTime.toString()),activeRoute);
         notificationRepository.save(notification);
+    }
+
+    public List<ActiveRouteFastInformationDTO> getHistory(){
+        UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_IdAndEnabled(user.getId(),false).stream().collect(Collectors.toList());
+        return activeRoutesToActiveRoutesFastInformation(activeRoutes);
+    }
+
+    @Transactional
+    @Scheduled(fixedRate = 600000)
+    public void disablingRoutes(){
+        Set<ActiveRoute> A = activeRouteRepository.getAllByEnabled(true);
+                A.stream().forEach(x->{
+            if(System.currentTimeMillis()>x.getTimeAndDate().getTime()+x.getRoute().getDuration()){
+                x.setEnabled(false);
+                x.getBookings().stream().forEach(y->{User user = y.getUser();
+                    Notification notification = notificationAdapter.createNotification(user,RATE_PASSENGER,x);
+                    notificationRepository.save(notification);
+                    user.setAmountOfBookings(user.getAmountOfBookings()+1);
+                    userRepository.save(user);
+                });
+                User user = x.getUser();
+                Notification notification = notificationAdapter.createNotification(user,RATE_DRIVER,x);
+                notificationRepository.save(notification);
+                user.setAmountOfPassengers(user.getAmountOfPassengers()+x.getMaxSeats()-x.getFreeSeats());
+                user.setDistance(user.getDistance()+x.getRoute().getDistance());
+                userRepository.save(user);
+                activeRouteRepository.save(x);
+            }
+        });
     }
 }

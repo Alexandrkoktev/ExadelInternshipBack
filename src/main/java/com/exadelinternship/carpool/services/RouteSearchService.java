@@ -3,6 +3,7 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
 import com.exadelinternship.carpool.dto.BookingAddingDTO;
+import com.exadelinternship.carpool.dto.RouteSearchDTO;
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
@@ -14,12 +15,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RouteSearchService {
 
     @Autowired
@@ -50,19 +54,19 @@ public class RouteSearchService {
         return true;
     }
 
-    public List<ActiveRouteFastInformationDTO> getRoutes(BookingAddingDTO bookingAddingDTO){
+    public List<ActiveRouteFastInformationDTO> getRoutes(RouteSearchDTO routeSearchDTO){
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        List<ActiveRoute> routes=activeRouteRepository.getByRouteAfter(new Timestamp(System.currentTimeMillis()));
-        routes.stream().filter(route->route.getUser().getId()!=userId&&route.isEnabled()).collect(Collectors.toList());
-        List<ActiveRoute> userRoutes=activeRouteRepository.getByUser_Id(userId).stream().collect(Collectors.toList());
-        List<Booking> userBookings=bookingRepository.getByUser_Id(userId).stream().collect(Collectors.toList());
+        Set<ActiveRoute> routes=activeRouteRepository.getAllByEnabled(true);//ByRouteAfter(new Timestamp(System.currentTimeMillis()));
+        routes.stream().filter(route->route.getUser().getId()!=userId).collect(Collectors.toList());
+        List<ActiveRoute> userRoutes=activeRouteRepository.getByUser_IdAndEnabled(userId,true).stream().collect(Collectors.toList());
+        List<Booking> userBookings=bookingRepository.getByUser_IdAndActiveRoute_Enabled(userId,true).stream().collect(Collectors.toList());
         routes.stream().filter(route->isTimeAvailableRoute(route,userRoutes)&&isTimeAvailableBooking(route,userBookings));
-        if(bookingAddingDTO.getMeetPoint()!=null) {
-            routes.stream().filter(route -> RouteSearchHelper.isCloseEnough(bookingAddingDTO.getMeetPoint(),
-                    bookingAddingDTO.getDestinationPoint(), route.getRoute().getWayPoints())).collect(Collectors.toList());
+        if(routeSearchDTO.getMeetPoint()!=null) {
+            routes.stream().filter(route -> RouteSearchHelper.isCloseEnough(routeSearchDTO.getMeetPoint(),
+                   routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints())).collect(Collectors.toList());
         }
-        if(bookingAddingDTO.getDatetime()!=null) {
-            routes.stream().filter(route->route.getTimeAndDate().after(bookingAddingDTO.getDatetime()))
+        if(routeSearchDTO.getDatetime()!=null) {
+            routes.stream().filter(route->route.getTimeAndDate().after(routeSearchDTO.getDatetime()))
                            .collect(Collectors.toList());
         }
         List<ActiveRouteFastInformationDTO> result=new ArrayList<>();

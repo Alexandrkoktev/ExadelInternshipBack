@@ -34,6 +34,7 @@ public class ActiveRouteAdapter {
         activeRoute.setMaxSeats(activeRouteAddingDTO.getMaxSeats());
         activeRoute.setTimeAndDate(activeRouteAddingDTO.getTimeAndDate());
         activeRoute.setUser(user);
+        activeRoute.setEnabled(true);
         return activeRoute;
     }
 
