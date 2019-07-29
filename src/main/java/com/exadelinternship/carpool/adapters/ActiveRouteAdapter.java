@@ -51,6 +51,7 @@ public class ActiveRouteAdapter {
         activeRouteInformationDTO.setFinishPoint(activeRoute.getRoute().getFinishPoint());
         activeRouteInformationDTO.setRouteUrl(activeRoute.getRoute().getRouteUrl());
         activeRouteInformationDTO.setBookings(bookingsToBookingsForDrivers(activeRoute.getBookings()));
+        activeRouteInformationDTO.setEnabled(activeRoute.isEnabled());
         return activeRouteInformationDTO;
     }
 

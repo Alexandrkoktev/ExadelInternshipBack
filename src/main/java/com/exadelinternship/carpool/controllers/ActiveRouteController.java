@@ -50,4 +50,10 @@ public class ActiveRouteController {
     public ActiveRouteInformationDTO getActiveRoutes(@PathVariable long id){
         return activeRouteService.getActiveRouteInformation(id);
     }
+
+    @PostMapping
+    @RequestMapping("/activeRoute/setRating")
+    public void setRating(@Valid @RequestBody RatingDTO rating){
+        activeRouteService.setRating(rating);
+    }
 }

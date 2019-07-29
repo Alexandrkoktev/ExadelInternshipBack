@@ -20,7 +20,16 @@ public class NotificationController {
         return  notificationService.getAllNotifications();
     }
 
-    public void addNotification(@Valid @RequestBody NotificationDTO notificationDTO){
-        notificationService.saveNotification(notificationDTO);
+    @GetMapping("/notification/setChecked/{id}")
+    @ResponseBody
+    public void setChecked(@PathVariable long id){
+        notificationService.setChecked(id);
     }
+
+    @DeleteMapping("/notification")
+    @ResponseBody
+    public void deleteNotification(@Valid @RequestBody long id){
+        notificationService.delete(id);
+    }
+
 }

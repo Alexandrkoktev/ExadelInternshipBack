@@ -15,6 +15,7 @@ public class ActiveRouteInformationDTO {
     private double[] finishPoint;
     private double[][] viaPoints;
     private int routeUrl;
+    private boolean enabled;
     private List<BookingForDriverDTO> bookings;
 
     public String getStartPointName() {
@@ -111,5 +112,13 @@ public class ActiveRouteInformationDTO {
 
     public void setBookings(List<BookingForDriverDTO> bookings) {
         this.bookings = bookings;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

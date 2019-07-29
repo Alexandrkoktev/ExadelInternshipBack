@@ -72,7 +72,9 @@ public class UserService {
 
     private List<UserStatisticDTO> usersToUsersStatistic(List<User> users){
         List<UserStatisticDTO> usersStatistic = new ArrayList<>();
-        users.stream().forEach(x->usersStatistic.add(userAdapter.userToUserStatisticDTO(x)));
+        users.stream()
+                .sorted((x,y)->{return x.getName().compareToIgnoreCase(y.getName());})
+                .forEach(x->usersStatistic.add(userAdapter.userToUserStatisticDTO(x)));
         return usersStatistic;
     }
 }

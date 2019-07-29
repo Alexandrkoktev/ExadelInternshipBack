@@ -17,6 +17,8 @@ public class BookingInformationDTO {
     private int routeUrl;
     private double[] meetPoint;
     private double[] destinationPoint;
+    private double rating;
+    private boolean enabled;
 
     public double[] getMeetPoint() {
         return meetPoint;
@@ -120,5 +122,21 @@ public class BookingInformationDTO {
 
     public void setRouteUrl(int routeUrl) {
         this.routeUrl = routeUrl;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
