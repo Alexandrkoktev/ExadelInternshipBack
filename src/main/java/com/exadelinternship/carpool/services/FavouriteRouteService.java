@@ -27,9 +27,12 @@ public class FavouriteRouteService {
     }
 
     public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO){
-        long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        FavouriteRoute favouriteRoute=favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO,userId);
-        favouriteRouteRepository.save(favouriteRoute);
+        if(favouriteRouteDTO.getStartPointName().length()<256&&favouriteRouteDTO.getEndPointName().length()<256&&
+        favouriteRouteDTO.getName().length()<256) {
+            long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            FavouriteRoute favouriteRoute = favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO, userId);
+            favouriteRouteRepository.save(favouriteRoute);
+        }
     }
 
     public void deleteFavRouteById(long id){

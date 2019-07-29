@@ -37,9 +37,11 @@ public class NotificationService {
     }
 
     public void saveNotification (NotificationDTO notificationDTO){
-        long userId=((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        Notification notification=notificationAdapter.notifDtoToNotif(notificationDTO,userId);
-        notificationRepository.save(notification);
+        if(notificationDTO.getInformation().length()<=255) {
+            long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            Notification notification = notificationAdapter.notifDtoToNotif(notificationDTO, userId);
+            notificationRepository.save(notification);
+        }
     }
 
 
