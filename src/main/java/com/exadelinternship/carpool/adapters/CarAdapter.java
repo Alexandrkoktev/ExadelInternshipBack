@@ -13,6 +13,13 @@ public class CarAdapter {
     @Autowired
     UserRepository userRepository;
 
+    public Car carInfoToCar(String carInfo,long userId){
+        Car car=new Car();
+        car.setCarInformation(carInfo);
+        car.setUser(userRepository.getOne(userId));
+        return car;
+    }
+
     public Car carDtoToCar(CarDTO carDTO,long userId){
         Car car=new Car();
         car.setCarInformation(carDTO.getCarInformation());

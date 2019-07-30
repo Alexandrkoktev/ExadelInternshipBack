@@ -93,19 +93,21 @@ public class ActiveRouteService {
     }
 
     public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
-        User user = userRepository.getOne(userDetails.getId());
-        Route route;
-        if(activeRouteAddingDTO.isFavourite()){
-            FavouriteRoute fRoute = favouriteRouteRepository.getOne(activeRouteAddingDTO.getFavouriteRouteId());
-            route = routeRepository.getOne(fRoute.getRoute().getId());
-        } else{
-            route = routeAdapter.activeRouteAddingDTOToRoute(activeRouteAddingDTO, user);
-            route = routeRepository.save(route);
+        if(activeRouteAddingDTO.getStartPointName().length()<256&&activeRouteAddingDTO.getFinishPointName().length()<256) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
+            User user = userRepository.getOne(userDetails.getId());
+            Route route;
+            if (activeRouteAddingDTO.isFavourite()) {
+                FavouriteRoute fRoute = favouriteRouteRepository.getOne(activeRouteAddingDTO.getFavouriteRouteId());
+                route = routeRepository.getOne(fRoute.getRoute().getId());
+            } else {
+                route = routeAdapter.activeRouteAddingDTOToRoute(activeRouteAddingDTO, user);
+                route = routeRepository.save(route);
+            }
+            ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO, car, route, user);
+            activeRouteRepository.save(activeRoute);
         }
-        ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO,car,route,user);
-        activeRouteRepository.save(activeRoute);
     }
 
     public ActiveRouteInformationDTO getActiveRouteInformation(long id){

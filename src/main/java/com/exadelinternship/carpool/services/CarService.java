@@ -29,12 +29,22 @@ public class CarService {
     }
 
     @Transactional
-    public void saveCar(CarDTO carDTO){
-        long userId=((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        Car car=carAdapter.carDtoToCar(carDTO,userId);
-        carRepository.save(car);
+    public void saveCar(String carInfo){
+        if(carInfo.length()<256) {
+            long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            Car car = carAdapter.carInfoToCar(carInfo, userId);
+            carRepository.save(car);
+        }
     }
 
+    @Transactional
+    public void editCar(CarDTO carDTO){
+        if(carDTO.getCarInformation().length()<256) {
+            long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            Car car = carAdapter.carDtoToCar(carDTO, userId);
+            carRepository.save(car);
+        }
+    }
     @Transactional
     public void deleteCarById(long id){
         long userId=((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();

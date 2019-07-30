@@ -106,6 +106,13 @@ public class ActiveRoute {
         this.user = user;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public Set<Notification> getNotifications() {
         return notifications;
@@ -115,11 +122,5 @@ public class ActiveRoute {
         this.notifications = notifications;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 }
