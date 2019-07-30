@@ -57,6 +57,9 @@ public class UserService {
     }
 
     public UserDetailsImpl loadUserByUsername(String login){
+        if(login.length()>255){
+            return null;
+        }
         Optional<User> user = userRepository.findByLogin(login);
         if(user!=null){
             return userAdapter.userToUserDetail(user.get());

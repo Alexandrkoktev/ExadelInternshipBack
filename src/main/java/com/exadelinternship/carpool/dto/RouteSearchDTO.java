@@ -2,19 +2,10 @@ package com.exadelinternship.carpool.dto;
 
 import java.sql.Timestamp;
 
-public class BookingAddingDTO {
-    private long activeRouteId;
+public class RouteSearchDTO {
     private double[] meetPoint;
     private double[] destinationPoint;
     private Timestamp datetime;
-
-    public long getActiveRouteId() {
-        return activeRouteId;
-    }
-
-    public void setActiveRouteId(long activeRouteId) {
-        this.activeRouteId = activeRouteId;
-    }
 
     public double[] getMeetPoint() {
         return meetPoint;

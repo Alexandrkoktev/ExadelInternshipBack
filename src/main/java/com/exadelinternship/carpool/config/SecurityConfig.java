@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .logoutSuccessHandler(new LogoutSuccessHandler() {
                     @Override
                     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+                        response.setHeader("Access-Control-Allow-Origin", "*");
                         response.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
                         response.setHeader("Access-Control-Allow-Headers", "*");
                         response.setHeader("Access-Control-Allow-Credentials", "true");
