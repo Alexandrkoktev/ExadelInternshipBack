@@ -87,6 +87,8 @@ public class UserAdapter {
         userStatistic.setDistance(user.getDistance());
         userStatistic.setId(user.getId());
         userStatistic.setName(user.getName());
+        userStatistic.setRatingDriver(user.getRatingDriver());
+        userStatistic.setRatingPassenger(user.getRatingPassenger());
         return userStatistic;
     }
 }
