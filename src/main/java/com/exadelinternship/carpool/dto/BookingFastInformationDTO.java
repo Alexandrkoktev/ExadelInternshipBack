@@ -7,6 +7,7 @@ public class BookingFastInformationDTO {
     private Timestamp timeAndDate;
     private String startPointName;
     private String finishPointName;
+    private boolean rating;
 
     public long getId() {
         return id;
@@ -38,5 +39,13 @@ public class BookingFastInformationDTO {
 
     public void setFinishPointName(String finishPointName) {
         this.finishPointName = finishPointName;
+    }
+
+    public boolean isRating() {
+        return rating;
+    }
+
+    public void setRating(boolean rating) {
+        this.rating = rating;
     }
 }

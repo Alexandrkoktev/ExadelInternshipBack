@@ -20,6 +20,7 @@ import javax.print.DocFlavor;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,26 @@ public class ActiveRouteService {
         } else{
 
         }
+    }
+
+    public void setRating(RatingDTO rating){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Booking booking = bookingRepository.getOne(rating.getId());
+        if(rating.getRate()>0 && rating.getRate()<6
+                && booking!=null && !booking.getActiveRoute().isEnabled() && booking.getPassengerRating()==0
+                && booking.getUser().getId()==userDetails.getId()){
+            booking.setPassengerRating(rating.getRate());
+            bookingRepository.save(booking);
+            User passenger = booking.getActiveRoute().getUser();
+            passenger.setRatingPassenger((passenger.getRatingPassenger() * passenger.getAmountOfVotersPassenger() + rating.getRate())
+                    /passenger.getAmountOfVotersPassenger()+1);
+            passenger.setAmountOfVotersPassenger(passenger.getAmountOfVotersPassenger()+1);
+            userRepository.save(passenger);
+
+        } else{
+
+        }
+
     }
 
     public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
@@ -131,6 +152,7 @@ public class ActiveRouteService {
                 createNotification(user,
                         String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
                                 activeRoute.getRoute().getFinishPointName()),activeRoute);
+        notification.setDriver(false);
         notificationRepository.save(notification);
         bookingRepository.delete(booking);
     }
@@ -147,12 +169,17 @@ public class ActiveRouteService {
                         activeRoute.getRoute().getStartPointName(),
                         activeRoute.getRoute().getFinishPointName(),
                         activeRoute.getTimeAndDate().toString(),newTime.toString()),activeRoute);
+        notification.setDriver(false);
         notificationRepository.save(notification);
     }
 
     public List<ActiveRouteFastInformationDTO> getHistory(){
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_IdAndEnabled(user.getId(),false).stream().collect(Collectors.toList());
+        List<ActiveRoute> activeRoutes = activeRouteRepository
+                .getByUser_IdAndEnabled(user.getId(),false)
+                .stream()
+                .sorted((x,y)->{return x.getTimeAndDate().compareTo(y.getTimeAndDate());})
+                .collect(Collectors.toList());
         return activeRoutesToActiveRoutesFastInformation(activeRoutes);
     }
 
@@ -165,6 +192,7 @@ public class ActiveRouteService {
                 x.setEnabled(false);
                 x.getBookings().stream().forEach(y->{User user = y.getUser();
                     Notification notification = notificationAdapter.createNotification(user,String.format(RATE_PASSENGER, x.getRoute().getStartPointName(),x.getRoute().getFinishPointName()),x);
+                    notification.setDriver(false);
                     notificationRepository.save(notification);
                     user.setAmountOfBookings(user.getAmountOfBookings()+1);
                     userRepository.save(user);
@@ -172,6 +200,7 @@ public class ActiveRouteService {
                 User user = x.getUser();
                 Notification notification = notificationAdapter
                         .createNotification(user,String.format(RATE_DRIVER, x.getRoute().getStartPointName(),x.getRoute().getFinishPointName()),x);
+                notification.setDriver(true);
                 notificationRepository.save(notification);
                 user.setAmountOfPassengers(user.getAmountOfPassengers()+x.getMaxSeats()-x.getFreeSeats());
                 user.setDistance(user.getDistance()+x.getRoute().getDistance());

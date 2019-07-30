@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.FavouriteRouteAdapter;
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
+import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
 import com.exadelinternship.carpool.entity.FavouriteRoute;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.FavouriteRouteRepository;
@@ -19,16 +20,15 @@ public class FavouriteRouteService {
     @Autowired
     FavouriteRouteAdapter favouriteRouteAdapter;
 
-    public List<FavouriteRouteDTO>  getAllFavouriteRoutes(){
-        List<FavouriteRouteDTO> result=new ArrayList<>();
+    public List<FavouriteRouteInfoDTO>  getAllFavouriteRoutes(){
+        List<FavouriteRouteInfoDTO> result=new ArrayList<>();
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        favouriteRouteRepository.findAllByUser_Id(userId).forEach(favRoute -> result.add(favouriteRouteAdapter.favRouteToFavRouteDTO(favRoute)));
+        favouriteRouteRepository.findAllByUser_Id(userId).forEach(favRoute -> result.add(favouriteRouteAdapter.favRouteToFavRouteInfoDTO(favRoute)));
         return result;
     }
 
     public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO){
-        if(favouriteRouteDTO.getStartPointName().length()<256&&favouriteRouteDTO.getEndPointName().length()<256&&
-        favouriteRouteDTO.getName().length()<256) {
+        if(favouriteRouteDTO.getName().length()<256) {
             long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             FavouriteRoute favouriteRoute = favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO, userId);
             favouriteRouteRepository.save(favouriteRoute);

@@ -1,9 +1,6 @@
 package com.exadelinternship.carpool.controllers;
 
-import com.exadelinternship.carpool.dto.ActiveRouteIdentityDTO;
-import com.exadelinternship.carpool.dto.BookingAddingDTO;
-import com.exadelinternship.carpool.dto.BookingFastInformationDTO;
-import com.exadelinternship.carpool.dto.BookingInformationDTO;
+import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +42,11 @@ public class BookingController {
     @RequestMapping("/createBooking")
     public void createBooking(@Valid @RequestBody BookingAddingDTO booking){
         bookingService.addBooking(booking);
+    }
+
+    @PostMapping
+    @RequestMapping("/booking/setRating")
+    public void setRating(@Valid @RequestBody RatingDTO rating){
+        bookingService.setRating(rating);
     }
 }

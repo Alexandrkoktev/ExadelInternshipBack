@@ -27,6 +27,9 @@ public class Notification {
     @Column(name="checked",nullable=false)
     private boolean checked;
 
+    @Column(name = "driver")
+    private boolean driver;
+
     public long getId() {
         return id;
     }
@@ -75,5 +78,11 @@ public class Notification {
         this.checked = checked;
     }
 
-    
+    public boolean isDriver() {
+        return driver;
+    }
+
+    public void setDriver(boolean driver) {
+        this.driver = driver;
+    }
 }

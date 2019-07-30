@@ -1,6 +1,7 @@
 package com.exadelinternship.carpool.controllers;
 
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
+import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
 import com.exadelinternship.carpool.services.FavouriteRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +17,25 @@ public class FavouriteRouteController {
 
     @GetMapping("/profile/favouriteroutes")
     @ResponseBody
-    public List<FavouriteRouteDTO> getAllFavouriteRoutes(){
+    public List<FavouriteRouteInfoDTO> getAllFavouriteRoutes(){
         return  favouriteRouteService.getAllFavouriteRoutes();
     }
 
     @GetMapping("/addRoute/favouriteroutes")
     @ResponseBody
-    public List<FavouriteRouteDTO> getAllFavouriteRoute(){
+    public List<FavouriteRouteInfoDTO> getAllFavouriteRoute(){
         return  favouriteRouteService.getAllFavouriteRoutes();
     }
 
+    @PostMapping("/favouriteRoute")
+    @ResponseBody
     public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO){
         favouriteRouteService.saveFavouriteRoute(favouriteRouteDTO);
     }
 
-    public void deleteFavouriteRoute(long id){
+    @DeleteMapping("/favouriteRoute/{id}")
+    @ResponseBody
+    public void deleteFavouriteRoute(@PathVariable("id") long id){
         favouriteRouteService.deleteFavRouteById(id);
     }
 

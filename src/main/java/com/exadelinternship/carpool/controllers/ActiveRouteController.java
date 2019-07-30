@@ -55,10 +55,16 @@ public class ActiveRouteController {
     public ActiveRouteInformationDTO getActiveRoutes(@PathVariable long id){
         return activeRouteService.getActiveRouteInformation(id);
     }
-    
+
     @PostMapping
     @RequestMapping("/searchRoutes")
     public List<ActiveRouteFastInformationDTO> searchRoutes(@Valid @RequestBody RouteSearchDTO routeSearchDTO){
         return  routeSearchService.getRoutes(routeSearchDTO);
+    }
+
+    @PostMapping
+    @RequestMapping("/activeRoute/setRating")
+    public void setRating(@Valid @RequestBody RatingDTO rating){
+        activeRouteService.setRating(rating);
     }
 }

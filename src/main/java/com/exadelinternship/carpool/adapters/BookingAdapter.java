@@ -19,6 +19,7 @@ public class BookingAdapter {
         bookingForDriverDTO.setMeetPoint(booking.getMeetPoint());
         bookingForDriverDTO.setName(booking.getUser().getName());
         bookingForDriverDTO.setPhoneNumber(booking.getUser().getPhoneNumber());
+        bookingForDriverDTO.setRating(booking.getPassengerRating());
         return bookingForDriverDTO;
     }
 
@@ -45,6 +46,8 @@ public class BookingAdapter {
         bookingInformationDTO.setRouteUrl(booking.getActiveRoute().getRoute().getRouteUrl());
         bookingInformationDTO.setDestinationPoint(booking.getDestinationPoint());
         bookingInformationDTO.setMeetPoint(booking.getMeetPoint());
+        bookingInformationDTO.setRating(booking.getDriverRating());
+        bookingInformationDTO.setEnabled(booking.getActiveRoute().isEnabled());
         return bookingInformationDTO;
     }
 
@@ -54,6 +57,8 @@ public class BookingAdapter {
         booking.setDestinationPoint(bookingAdding.getDestinationPoint());
         booking.setUser(user);
         booking.setMeetPoint(bookingAdding.getMeetPoint());
+        booking.setPassengerRating(0);
+        booking.setDriverRating(0);
         return booking;
     }
 }
