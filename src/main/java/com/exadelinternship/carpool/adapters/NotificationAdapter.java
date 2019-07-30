@@ -26,6 +26,7 @@ public class NotificationAdapter {
         notifDTO.setDatetime(notification.getDatetime());
         notifDTO.setInformation(notification.getInformation());
         notifDTO.setDriver(notification.isDriver());
+        notifDTO.setId(notification.getId());
         if(notification.isDriver()){
             notifDTO.setRouteOrBookingId(notification.getActiveRoute().getId());
         }
