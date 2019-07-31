@@ -1,5 +1,7 @@
 package com.exadelinternship.carpool.config;
 
+import com.exadelinternship.carpool.controllers.EntityNotFoundException;
+import com.exadelinternship.carpool.entity.User;
 import com.exadelinternship.carpool.entity.enums.UserRole;
 import com.exadelinternship.carpool.services.AuthProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -77,12 +81,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 httpServletResponse.sendError(200);
             }
         });
+        http.formLogin().failureHandler(customAuthenticationFailureHandler());
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
     {
         auth.authenticationProvider(authProvider);
+    }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
 }

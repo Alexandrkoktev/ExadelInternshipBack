@@ -40,7 +40,7 @@ public class CarController {
 
     @DeleteMapping("/profile/cars/{id}")
     @ResponseBody
-    public void deleteCar(@PathVariable("id") long id){
+    public void deleteCar(@PathVariable("id") long id) throws EntityNotFoundException{
         carService.deleteCarById(id);
     }
 
