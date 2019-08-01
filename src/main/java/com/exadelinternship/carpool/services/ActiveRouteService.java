@@ -18,10 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.print.DocFlavor;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,21 +97,51 @@ public class ActiveRouteService {
     }
 
     public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
-        if(activeRouteAddingDTO.getStartPointName().length()<256&&activeRouteAddingDTO.getFinishPointName().length()<256) {
+        if(activeRouteAddingDTO.getStartPointName().length()<256 &&
+                activeRouteAddingDTO.getFinishPointName().length()<256) {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
-            User user = userRepository.getOne(userDetails.getId());
-            Route route;
-            if (activeRouteAddingDTO.isFavourite()) {
-                FavouriteRoute fRoute = favouriteRouteRepository.getOne(activeRouteAddingDTO.getFavouriteRouteId());
-                route = routeRepository.getOne(fRoute.getRoute().getId());
-            } else {
-                route = routeAdapter.activeRouteAddingDTOToRoute(activeRouteAddingDTO, user);
-                route = routeRepository.save(route);
+            if(isTimeFree(activeRouteAddingDTO.getTimeAndDate(),activeRouteAddingDTO.getDuration()*1000,userDetails.getId())){
+                activeRouteAddingDTO.setDuration(activeRouteAddingDTO.getDuration()*1000);
+                activeRouteAddingDTO.setDistance(activeRouteAddingDTO.getDistance()/1000);
+                Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
+                User user = userRepository.getOne(userDetails.getId());
+                Route route;
+                if (activeRouteAddingDTO.isFavourite()) {
+                    FavouriteRoute fRoute = favouriteRouteRepository.getOne(activeRouteAddingDTO.getFavouriteRouteId());
+                    route = routeRepository.getOne(fRoute.getRoute().getId());
+                } else {
+                    route = routeAdapter.activeRouteAddingDTOToRoute(activeRouteAddingDTO, user);
+                    route = routeRepository.save(route);
+                }
+                ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO, car, route, user);
+                activeRouteRepository.save(activeRoute);
+            } else{
+
             }
-            ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO, car, route, user);
-            activeRouteRepository.save(activeRoute);
         }
+    }
+
+    private boolean isTimeFree(Timestamp startTime, long duration, long userId){
+        return isTimeFreeForBookings(startTime,duration, bookingRepository.getByUser_IdAndActiveRoute_Enabled(userId,true)) &&
+                isTimeFreeForRoutes(startTime,duration,activeRouteRepository.getByUser_IdAndEnabled(userId, true));
+    }
+
+    private boolean isTimeFreeForRoutes(Timestamp startTime, long duration, Set<ActiveRoute> activeRoutes){
+        return !activeRoutes.stream().anyMatch(x->{
+            return !((startTime.getTime()<x.getTimeAndDate().getTime()
+                    && startTime.getTime()+duration<x.getTimeAndDate().getTime()) ||
+                    (startTime.getTime()>x.getTimeAndDate().getTime()+x.getRoute().getDuration() &&
+                            startTime.getTime()+duration > x.getTimeAndDate().getTime()+x.getRoute().getDuration()));
+        });
+    }
+
+    private boolean isTimeFreeForBookings(Timestamp startTime, long duration, Set<Booking> activeRoutes){
+        return !activeRoutes.stream().anyMatch(x->{
+            return !((startTime.getTime()<x.getActiveRoute().getTimeAndDate().getTime()
+                    && startTime.getTime()+duration<x.getActiveRoute().getTimeAndDate().getTime()) ||
+                    (startTime.getTime()>x.getActiveRoute().getTimeAndDate().getTime()+x.getActiveRoute().getRoute().getDuration() &&
+                            startTime.getTime()+duration > x.getActiveRoute().getTimeAndDate().getTime()+x.getActiveRoute().getRoute().getDuration()));
+        });
     }
 
     public ActiveRouteInformationDTO getActiveRouteInformation(long id){
@@ -157,7 +186,7 @@ public class ActiveRouteService {
                 createNotification(user,
                         String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
                                 activeRoute.getRoute().getFinishPointName(),
-                                activeRoute.getTimeAndDate().toString()),activeRoute);
+                                toStringDate(activeRoute.getTimeAndDate().getTime())),activeRoute);
         notification.setDriver(false);
         notificationRepository.save(notification);
         bookingRepository.delete(booking);
@@ -174,9 +203,15 @@ public class ActiveRouteService {
                 createNotification(user,String.format(EDIT_MESSAGE,
                         activeRoute.getRoute().getStartPointName(),
                         activeRoute.getRoute().getFinishPointName(),
-                        activeRoute.getTimeAndDate().toString(),newTime.toString()),activeRoute);
+                        toStringDate(activeRoute.getTimeAndDate().getTime()),
+                        toStringDate(newTime.getTime())),activeRoute);
         notification.setDriver(false);
         notificationRepository.save(notification);
+    }
+
+    private String toStringDate(long time){
+        DateFormat d= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return d.format(new Date(time));
     }
 
     public List<ActiveRouteFastInformationDTO> getHistory(){
