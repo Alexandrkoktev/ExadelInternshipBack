@@ -43,6 +43,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
+        logger.error(error);
         return buildResponseEntity(new ApiError(BAD_REQUEST, error, ex));
     }
 
@@ -66,7 +67,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         builder.append(ex.getContentType());
         builder.append(" media type is not supported. Supported media types are ");
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
-        return buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));
+        ApiError error=new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex);
+        logger.error(error);
+        return buildResponseEntity(error);
     }
 
     /**
@@ -88,6 +91,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
+        logger.error(apiError);
         return buildResponseEntity(apiError);
     }
 
@@ -103,6 +107,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getConstraintViolations());
+        logger.error(apiError);
         return buildResponseEntity(apiError);
     }
 
@@ -117,6 +122,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             EntityNotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
+        logger.error(apiError);
         return buildResponseEntity(apiError);
     }
 
@@ -149,6 +155,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "Error writing JSON output";
+        logger.error(error);
         return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
     }
 
@@ -167,6 +174,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
+        logger.error(apiError);
         return buildResponseEntity(apiError);
     }
 
@@ -175,7 +183,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex) {
-        return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, ex));
+        ApiError error=new ApiError(HttpStatus.NOT_FOUND, ex);
+        logger.error(error);
+        return buildResponseEntity(error);
     }
 
     /**
@@ -187,10 +197,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
                                                                   WebRequest request) {
+        ApiError error;
         if (ex.getCause() instanceof ConstraintViolationException) {
-            return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
+            error=new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause());
+            logger.error(error);
+            return buildResponseEntity(error);
         }
-        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
+        error=new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+        logger.error(error);
+        return buildResponseEntity(error);
     }
 
     /**
@@ -205,6 +220,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
+        logger.error(apiError);
         return buildResponseEntity(apiError);
     }
 
