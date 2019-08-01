@@ -30,7 +30,7 @@ public class FavouriteRouteController {
 
     @PostMapping("/favouriteRoute")
     @ResponseBody
-    public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO){
+    public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO) throws Exception{
         favouriteRouteService.saveFavouriteRoute(favouriteRouteDTO);
     }
 

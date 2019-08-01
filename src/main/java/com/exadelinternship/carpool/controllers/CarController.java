@@ -28,13 +28,13 @@ public class CarController {
 
     @PostMapping("/profile/cars")
     @ResponseBody
-    public void addCar(@Valid @RequestBody String carInfo){
+    public void addCar(@Valid @RequestBody String carInfo)throws Exception{
         carService.saveCar(carInfo);
     }
 
     @PutMapping("/profile/cars/{id}")
     @ResponseBody
-    public void updateCar(@Valid @RequestBody CarDTO carDTO){
+    public void updateCar(@Valid @RequestBody CarDTO carDTO)throws Exception{
         carService.editCar(carDTO);
     }
 

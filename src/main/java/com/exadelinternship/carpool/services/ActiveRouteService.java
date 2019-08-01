@@ -3,6 +3,7 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
 import com.exadelinternship.carpool.adapters.NotificationAdapter;
 import com.exadelinternship.carpool.adapters.RouteAdapter;
+import com.exadelinternship.carpool.controllers.TooLongStringException;
 import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.*;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
@@ -59,7 +60,7 @@ public class ActiveRouteService {
         return activeRoutesToActiveRoutesFastInformation(activeRoutes.stream().collect(Collectors.toList()));
     }
 
-    public void changeTime(ActiveRouteEditDTO activeRouteEdit){
+    public void changeTime(ActiveRouteEditDTO activeRouteEdit) throws Exception{
 
         ActiveRoute activeRoute = activeRouteRepository.getOne(activeRouteEdit.getId());
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -68,6 +69,7 @@ public class ActiveRouteService {
             activeRoute.setTimeAndDate(activeRouteEdit.getTimeAndDate());
             activeRouteRepository.save(activeRoute);
         } else{
+            throw new Exception();
 
         }
     }
@@ -77,7 +79,7 @@ public class ActiveRouteService {
         return routeAdapter.routeToRouteDTO(activeRoute.getRoute());
     }
 
-    public void setRating(RatingDTO rating){
+    public void setRating(RatingDTO rating) throws Exception{
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(rating.getId());
         if(rating.getRate()>0 && rating.getRate()<6
@@ -92,12 +94,13 @@ public class ActiveRouteService {
             userRepository.save(passenger);
 
         } else{
+            throw new Exception();
 
         }
 
     }
 
-    public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
+    public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO) throws Exception {
         if(activeRouteAddingDTO.getStartPointName().length()<256&&activeRouteAddingDTO.getFinishPointName().length()<256) {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());
@@ -113,6 +116,9 @@ public class ActiveRouteService {
             ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO, car, route, user);
             activeRouteRepository.save(activeRoute);
         }
+        else{
+            throw new Exception();
+        }
     }
 
     public ActiveRouteInformationDTO getActiveRouteInformation(long id){
@@ -125,7 +131,7 @@ public class ActiveRouteService {
         }
     }
 
-    public void deleteActiveRoute(long id){
+    public void deleteActiveRoute(long id) throws Exception{
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
         if(activeRoute!=null && activeRoute.getUser().getId()==user.getId()){
@@ -134,7 +140,7 @@ public class ActiveRouteService {
             activeRouteRepository.save(activeRoute);
         }
         else{
-
+             throw new Exception();
         }
     }
 

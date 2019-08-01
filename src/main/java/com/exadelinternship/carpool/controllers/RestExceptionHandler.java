@@ -21,8 +21,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -126,6 +125,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(TooLongStringException.class)
+    protected ResponseEntity<Object> handleTooLongString(
+            TooLongStringException ex) {
+        ApiError apiError = new ApiError(REQUEST_HEADER_FIELDS_TOO_LARGE);
+        apiError.setMessage(ex.getMessage());
+        logger.error(apiError);
+        return buildResponseEntity(apiError);
+    }
+
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
      *
@@ -187,6 +195,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error(error);
         return buildResponseEntity(error);
     }
+
+
 
     /**
      * Handle DataIntegrityViolationException, inspects the cause for different DB causes.

@@ -49,7 +49,7 @@ public class BookingService {
         }
     }
 
-    public void setRating(RatingDTO rating){
+    public void setRating(RatingDTO rating) throws Exception{
         UserDetailsImpl userDetails = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(rating.getId());
         if(rating.getRate()>0 && rating.getRate()<6
@@ -63,7 +63,7 @@ public class BookingService {
             driver.setAmountOfVotersDriver(driver.getAmountOfVotersDriver()+1);
             userRepository.save(driver);
         } else{
-
+            throw new Exception();
         }
     }
 
@@ -79,7 +79,7 @@ public class BookingService {
         }
     }
 
-    public void deleteBooking(long id){
+    public void deleteBooking(long id) throws Exception{
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(id);
         ActiveRoute activeRoute = activeRouteRepository.getOne(booking.getActiveRoute().getId());
@@ -88,7 +88,7 @@ public class BookingService {
             activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats()+1));
         }
         else{
-
+             throw new Exception();
         }
     }
 
