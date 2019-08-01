@@ -5,8 +5,12 @@ import com.exadelinternship.carpool.dto.UserInformationDTO;
 import com.exadelinternship.carpool.dto.UserListsDTO;
 import com.exadelinternship.carpool.dto.UserProfileDTO;
 import com.exadelinternship.carpool.dto.UserStatisticDTO;
+import com.exadelinternship.carpool.entity.ActiveRoute;
+import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.User;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
+import com.exadelinternship.carpool.repository.ActiveRouteRepository;
+import com.exadelinternship.carpool.repository.BookingRepository;
 import com.exadelinternship.carpool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +28,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ActiveRouteRepository activeRouteRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
 
     private final int PAGE_SIZE = 50;
 
@@ -51,7 +59,9 @@ public class UserService {
         UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> user = userRepository.findById(principal.getId());
         if(user.isPresent()){
-            return userAdapter.userToUserListDTO(user.get());
+            Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_IdAndEnabled(user.get().getId(),true);
+            Set<Booking> bookings = bookingRepository.getByUser_IdAndActiveRoute_Enabled(user.get().getId(), true);
+            return userAdapter.userToUserListDTO(activeRoutes,bookings);
         } else{
             return null;
         }

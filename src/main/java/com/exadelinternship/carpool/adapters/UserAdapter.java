@@ -33,10 +33,10 @@ public class UserAdapter {
         return userDTO;
     }
 
-    public UserListsDTO userToUserListDTO(User user){
+    public UserListsDTO userToUserListDTO(Set<ActiveRoute> activeRoutes, Set<Booking> bookings){
         UserListsDTO userListsDTO = new UserListsDTO();
-        userListsDTO.setActiveRoutes(getFirstActiveRoutes(user.getActiveRoutes(),AMOUNT_OF_NOTES));
-        userListsDTO.setBookings(getFirstBookings(user.getBookings(),AMOUNT_OF_NOTES));
+        userListsDTO.setActiveRoutes(getFirstActiveRoutes(activeRoutes, AMOUNT_OF_NOTES));
+        userListsDTO.setBookings(getFirstBookings(bookings, AMOUNT_OF_NOTES));
         return userListsDTO;
     }
 
