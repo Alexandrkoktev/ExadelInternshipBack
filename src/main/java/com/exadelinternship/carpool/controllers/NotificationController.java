@@ -21,7 +21,7 @@ public class NotificationController {
         return  notificationService.getAllNotifications();
     }
 
-    @GetMapping("/notification/setChecked/{id}")
+    @PostMapping("/notification/setChecked/{id}")
     @ResponseBody
     public void setChecked(@PathVariable long id){
         notificationService.setChecked(id);
