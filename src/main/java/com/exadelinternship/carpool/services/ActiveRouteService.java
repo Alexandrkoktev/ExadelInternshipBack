@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class ActiveRouteService {
 
-    private final String DELETE_MESSAGE = "Route from %s to %s was deleted";
+    private final String DELETE_MESSAGE = "Route from %s to %s in %s was deleted";
     private final String EDIT_MESSAGE = "Time of route from %s to %s was changed from %s to %s";
     private final String RATE_DRIVER = "You can rate your passengers on route from %s to %s";
     private final String RATE_PASSENGER = "You can rate your driver on route from %s to %s";
@@ -151,7 +151,8 @@ public class ActiveRouteService {
         Notification notification = notificationAdapter.
                 createNotification(user,
                         String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
-                                activeRoute.getRoute().getFinishPointName()),activeRoute);
+                                activeRoute.getRoute().getFinishPointName(),
+                                activeRoute.getTimeAndDate().toString()),activeRoute);
         notification.setDriver(false);
         notificationRepository.save(notification);
         bookingRepository.delete(booking);
