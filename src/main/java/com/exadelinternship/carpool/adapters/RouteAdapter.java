@@ -1,6 +1,7 @@
 package com.exadelinternship.carpool.adapters;
 
 import com.exadelinternship.carpool.dto.ActiveRouteAddingDTO;
+import com.exadelinternship.carpool.dto.RouteDTO;
 import com.exadelinternship.carpool.entity.Route;
 import com.exadelinternship.carpool.entity.User;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,12 @@ public class RouteAdapter {
         route.setWayPoints(activeRouteAddingDTO.getWayPoints());
         route.setDuration(activeRouteAddingDTO.getDuration());
         return route;
+    }
+    public RouteDTO routeToRouteDTO(Route route) {
+        RouteDTO routeDTO = new RouteDTO();
+        routeDTO.setFinishPoint(route.getFinishPoint());
+        routeDTO.setStartPoint(route.getStartPoint());
+        routeDTO.setViaPoints(route.getViaPoints());
+        return routeDTO;
     }
 }

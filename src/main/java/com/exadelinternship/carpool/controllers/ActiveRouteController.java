@@ -56,6 +56,12 @@ public class ActiveRouteController {
         return activeRouteService.getActiveRouteInformation(id);
     }
 
+    @GetMapping
+    @RequestMapping("/route/{id}")
+    public RouteDTO getRoutes(@PathVariable long id){
+        return activeRouteService.getRoute(id);
+    }
+
     @PostMapping
     @RequestMapping("/searchRoutes")
     public List<ActiveRouteFastInformationDTO> searchRoutes(@Valid @RequestBody RouteSearchDTO routeSearchDTO){

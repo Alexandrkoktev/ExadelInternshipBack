@@ -72,6 +72,11 @@ public class ActiveRouteService {
         }
     }
 
+    public RouteDTO getRoute(long id){
+        ActiveRoute activeRoute = activeRouteRepository.getOne(id);
+        return routeAdapter.routeToRouteDTO(activeRoute.getRoute());
+    }
+
     public void setRating(RatingDTO rating){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(rating.getId());
