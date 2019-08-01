@@ -83,7 +83,7 @@ public class BookingService {
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(id);
         ActiveRoute activeRoute = activeRouteRepository.getOne(booking.getActiveRoute().getId());
-        if(booking!=null && booking.getUser().getId()==user.getId()){
+        if(booking!=null && booking.getActiveRoute().isEnabled() && booking.getUser().getId()==user.getId()){
             bookingRepository.delete(booking);
             activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats()+1));
         }
