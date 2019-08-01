@@ -126,6 +126,7 @@ public class ActiveRouteService {
                 isTimeFreeForRoutes(startTime,duration,activeRouteRepository.getByUser_IdAndEnabled(userId, true));
     }
 
+
     private boolean isTimeFreeForRoutes(Timestamp startTime, long duration, Set<ActiveRoute> activeRoutes){
         return !activeRoutes.stream().anyMatch(x->{
             return !((startTime.getTime()<x.getTimeAndDate().getTime()
@@ -157,7 +158,7 @@ public class ActiveRouteService {
     public void deleteActiveRoute(long id){
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
-        if(activeRoute!=null && activeRoute.getUser().getId()==user.getId()){
+        if(activeRoute!=null && activeRoute.isEnabled() && activeRoute.getUser().getId()==user.getId()){
             deleteBookings(activeRoute);
             activeRoute.setEnabled(false);
             activeRouteRepository.save(activeRoute);
