@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.controllers;
 
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
 import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
+import com.exadelinternship.carpool.dto.RouteDTO;
 import com.exadelinternship.carpool.services.FavouriteRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +41,7 @@ public class FavouriteRouteController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/favouriteRoute/{id}")
+    @ResponseBody
+    public RouteDTO getFavouriteRoute(@PathVariable("id") long id){ return favouriteRouteService.getFavouriteRoute(id);}
 }
