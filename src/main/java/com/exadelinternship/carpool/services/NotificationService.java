@@ -2,8 +2,11 @@ package com.exadelinternship.carpool.services;
 
 import com.exadelinternship.carpool.adapters.NotificationAdapter;
 import com.exadelinternship.carpool.dto.NotificationDTO;
+import com.exadelinternship.carpool.dto.NotificationMessageDTO;
+import com.exadelinternship.carpool.entity.Booking;
 import com.exadelinternship.carpool.entity.Notification;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
+import com.exadelinternship.carpool.repository.BookingRepository;
 import com.exadelinternship.carpool.repository.NotificationRepository;
 import com.exadelinternship.carpool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ public class NotificationService {
     NotificationRepository notificationRepository;
     @Autowired
     NotificationAdapter notificationAdapter;
+    @Autowired
+    BookingRepository bookingRepository;
 
     public List<NotificationDTO> getAllNotifications(){
         List<NotificationDTO> result=new ArrayList<>();
@@ -51,5 +56,29 @@ public class NotificationService {
         }
     }
 
+    public void sendBookingMessages(NotificationMessageDTO message){
+        long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        if(message.getBookingId().size()==1){
+            Booking booking = bookingRepository.getOne(message.getBookingId().get(0));
+            if(booking.getUser().getId()==userId){
+                Notification notification = notificationAdapter
+                        .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
+                notification.setDriver(true);
+                notificationRepository.save(notification);
+            }
+        }
+    }
 
+    public void sendRouteMessages(NotificationMessageDTO message){
+        long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        message.getBookingId().stream().forEach(x->{
+            Booking booking = bookingRepository.getOne(x);
+            if(booking!=null && booking.getActiveRoute().isEnabled() && booking.getActiveRoute().getUser().getId()==userId){
+                Notification notification = notificationAdapter
+                        .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
+                notification.setDriver(false);
+                notificationRepository.save(notification);
+            }
+        });
+    }
 }

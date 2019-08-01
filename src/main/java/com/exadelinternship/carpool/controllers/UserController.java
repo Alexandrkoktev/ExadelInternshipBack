@@ -44,7 +44,10 @@ public class UserController{
 
     @GetMapping
     @RequestMapping("/statistic")
-    public List<UserStatisticDTO> getStatistics(){
-        return userService.getUsersStatistic();
+    public List<UserStatisticDTO> getStatistics(@RequestParam(name="order", required=false, defaultValue="true") boolean order,
+                                                @RequestParam(name="mode", required=false, defaultValue="0") int mode,
+                                                @RequestParam(name="page", required=false, defaultValue="0") int page,
+                                                @RequestParam(name="name", required=false, defaultValue="") String name){
+        return userService.getUsersStatistic(mode, order, page, name);
     }
 }
