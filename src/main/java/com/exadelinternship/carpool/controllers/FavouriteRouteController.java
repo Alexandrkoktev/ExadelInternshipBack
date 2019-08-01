@@ -39,4 +39,6 @@ public class FavouriteRouteController {
         favouriteRouteService.deleteFavRouteById(id);
     }
 
+
+    @GetMapping("/")
 }
