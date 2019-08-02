@@ -7,6 +7,8 @@ import com.exadelinternship.carpool.dto.UserListsDTO;
 import com.exadelinternship.carpool.dto.UserProfileDTO;
 import com.exadelinternship.carpool.dto.UserStatisticDTO;
 import com.exadelinternship.carpool.services.UserService;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserController{
+
 
     @Autowired
     UserService userService;

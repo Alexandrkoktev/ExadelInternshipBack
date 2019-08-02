@@ -68,11 +68,4 @@ public class RouteSearchHelper {
         return minStart<maxDistanse && minEnd<maxDistanse;
     }
 
-    static public void main(String[] args)
-    {
-        //System.out.println(isCloseEnough(new double [] {1,2},new double [] {2,3},new double[][]{{1,3},{2,3}}));
-        //System.out.println( TwoDimensionalCalculation(new double []{2,3},new double[]{3,4}));
-       // System.out.println(DistanceFromPointToSegment(new double []{10,22},new double[]{3,4},new double[]{2,3}));
-
-    }
 }

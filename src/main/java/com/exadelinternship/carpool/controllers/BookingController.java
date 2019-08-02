@@ -31,7 +31,7 @@ public class BookingController {
 
     @DeleteMapping
     @RequestMapping("/booking")
-    public void deleteBooking(@Valid @RequestBody long id){
+    public void deleteBooking(@Valid @RequestBody long id)throws Exception{
         bookingService.deleteBooking(id);
     }
 
@@ -56,7 +56,7 @@ public class BookingController {
 
     @PostMapping
     @RequestMapping("/booking/setRating")
-    public void setRating(@Valid @RequestBody RatingDTO rating){
+    public void setRating(@Valid @RequestBody RatingDTO rating)throws Exception{
         bookingService.setRating(rating);
     }
 }

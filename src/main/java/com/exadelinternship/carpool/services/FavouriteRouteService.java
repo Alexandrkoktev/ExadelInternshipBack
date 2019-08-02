@@ -3,6 +3,7 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.FavouriteRouteAdapter;
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
 import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
+import com.exadelinternship.carpool.dto.RouteDTO;
 import com.exadelinternship.carpool.entity.FavouriteRoute;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.FavouriteRouteRepository;
@@ -27,11 +28,18 @@ public class FavouriteRouteService {
         return result;
     }
 
-    public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO){
+    public RouteDTO getFavouriteRoute(long id){
+        return favouriteRouteAdapter.favRouteToRouteDTO(favouriteRouteRepository.getOne(id));
+    }
+
+    public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO)throws Exception{
         if(favouriteRouteDTO.getName().length()<256) {
             long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             FavouriteRoute favouriteRoute = favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO, userId);
             favouriteRouteRepository.save(favouriteRoute);
+        }
+        else{
+            throw new Exception();
         }
     }
 

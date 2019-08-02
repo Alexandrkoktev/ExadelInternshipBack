@@ -49,7 +49,7 @@ public class ActiveRouteAdapter {
         activeRouteInformationDTO.setStartPoint(activeRoute.getRoute().getStartPoint());
         activeRouteInformationDTO.setStartPointName(activeRoute.getRoute().getStartPointName());
         activeRouteInformationDTO.setFinishPoint(activeRoute.getRoute().getFinishPoint());
-        activeRouteInformationDTO.setRouteUrl(activeRoute.getRoute().getRouteUrl());
+        activeRouteInformationDTO.setRouteId(activeRoute.getRoute().getId());
         activeRouteInformationDTO.setBookings(bookingsToBookingsForDrivers(activeRoute.getBookings()));
         activeRouteInformationDTO.setEnabled(activeRoute.isEnabled());
         return activeRouteInformationDTO;

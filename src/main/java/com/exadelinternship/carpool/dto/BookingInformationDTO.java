@@ -19,6 +19,7 @@ public class BookingInformationDTO {
     private double[] destinationPoint;
     private double rating;
     private boolean enabled;
+    private String driverName;
 
     public double[] getMeetPoint() {
         return meetPoint;
@@ -138,5 +139,13 @@ public class BookingInformationDTO {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 }

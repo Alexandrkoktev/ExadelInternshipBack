@@ -29,20 +29,26 @@ public class CarService {
     }
 
     @Transactional
-    public void saveCar(String carInfo){
+    public void saveCar(String carInfo) throws Exception{
         if(carInfo.length()<256) {
             long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             Car car = carAdapter.carInfoToCar(carInfo, userId);
             carRepository.save(car);
         }
+        else{
+            throw new Exception();
+        }
     }
 
     @Transactional
-    public void editCar(CarDTO carDTO){
+    public void editCar(CarDTO carDTO) throws Exception{
         if(carDTO.getCarInformation().length()<256) {
             long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             Car car = carAdapter.carDtoToCar(carDTO, userId);
             carRepository.save(car);
+        }
+        else{
+            throw new Exception();
         }
     }
     @Transactional

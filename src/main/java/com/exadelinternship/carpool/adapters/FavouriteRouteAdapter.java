@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.adapters;
 
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
 import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
+import com.exadelinternship.carpool.dto.RouteDTO;
 import com.exadelinternship.carpool.entity.FavouriteRoute;
 import com.exadelinternship.carpool.repository.RouteRepository;
 import com.exadelinternship.carpool.repository.UserRepository;
@@ -31,6 +32,14 @@ public class FavouriteRouteAdapter {
          favRDTO.setStartPointName(favRoute.getRoute().getStartPointName());
          favRDTO.setEndPointName(favRoute.getRoute().getFinishPointName());
          return  favRDTO;
+     }
+
+     public RouteDTO favRouteToRouteDTO(FavouriteRoute favRoute){
+         RouteDTO routeDTO=new RouteDTO();
+         routeDTO.setFinishPoint(favRoute.getRoute().getFinishPoint());
+         routeDTO.setStartPoint(favRoute.getRoute().getStartPoint());
+         routeDTO.setViaPoints(favRoute.getRoute().getViaPoints());
+         return routeDTO;
      }
 
 

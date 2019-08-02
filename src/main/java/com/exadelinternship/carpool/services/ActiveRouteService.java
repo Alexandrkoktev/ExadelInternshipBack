@@ -58,7 +58,7 @@ public class ActiveRouteService {
         return activeRoutesToActiveRoutesFastInformation(activeRoutes.stream().collect(Collectors.toList()));
     }
 
-    public void changeTime(ActiveRouteEditDTO activeRouteEdit){
+    public void changeTime(ActiveRouteEditDTO activeRouteEdit) throws Exception{
 
         ActiveRoute activeRoute = activeRouteRepository.getOne(activeRouteEdit.getId());
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -67,6 +67,7 @@ public class ActiveRouteService {
             activeRoute.setTimeAndDate(activeRouteEdit.getTimeAndDate());
             activeRouteRepository.save(activeRoute);
         } else{
+            throw new Exception();
 
         }
     }
@@ -76,7 +77,7 @@ public class ActiveRouteService {
         return routeAdapter.routeToRouteDTO(activeRoute.getRoute());
     }
 
-    public void setRating(RatingDTO rating){
+    public void setRating(RatingDTO rating) throws Exception{
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(rating.getId());
         if(rating.getRate()>0 && rating.getRate()<6
@@ -91,12 +92,13 @@ public class ActiveRouteService {
             userRepository.save(passenger);
 
         } else{
+            throw new Exception();
 
         }
 
     }
 
-    public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO){
+    public void addActiveRoute(ActiveRouteAddingDTO activeRouteAddingDTO) throws Exception{
         if(activeRouteAddingDTO.getStartPointName().length()<256 &&
                 activeRouteAddingDTO.getFinishPointName().length()<256) {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -118,6 +120,9 @@ public class ActiveRouteService {
             } else{
 
             }
+        }
+        else{
+            throw new Exception();
         }
     }
 
@@ -155,7 +160,7 @@ public class ActiveRouteService {
         }
     }
 
-    public void deleteActiveRoute(long id){
+    public void deleteActiveRoute(long id) throws Exception{
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ActiveRoute activeRoute = activeRouteRepository.getOne(id);
         if(activeRoute!=null && activeRoute.isEnabled() && activeRoute.getUser().getId()==user.getId()){
@@ -164,7 +169,7 @@ public class ActiveRouteService {
             activeRouteRepository.save(activeRoute);
         }
         else{
-
+             throw new Exception();
         }
     }
 

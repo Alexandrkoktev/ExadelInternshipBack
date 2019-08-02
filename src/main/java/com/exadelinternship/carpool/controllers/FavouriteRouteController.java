@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.controllers;
 
 import com.exadelinternship.carpool.dto.FavouriteRouteDTO;
 import com.exadelinternship.carpool.dto.FavouriteRouteInfoDTO;
+import com.exadelinternship.carpool.dto.RouteDTO;
 import com.exadelinternship.carpool.services.FavouriteRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class FavouriteRouteController {
 
     @PostMapping("/favouriteRoute")
     @ResponseBody
-    public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO){
+    public void addFavouriteRoute (@Valid @RequestBody FavouriteRouteDTO favouriteRouteDTO) throws Exception{
         favouriteRouteService.saveFavouriteRoute(favouriteRouteDTO);
     }
 
@@ -39,4 +40,8 @@ public class FavouriteRouteController {
         favouriteRouteService.deleteFavRouteById(id);
     }
 
+
+    @GetMapping("/favouriteRoute/{id}")
+    @ResponseBody
+    public RouteDTO getFavouriteRoute(@PathVariable("id") long id){ return favouriteRouteService.getFavouriteRoute(id);}
 }

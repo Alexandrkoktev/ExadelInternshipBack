@@ -34,19 +34,19 @@ public class ActiveRouteController {
 
     @PostMapping
     @RequestMapping("/addRoute")
-    public void addActiveRoute(@Valid @RequestBody ActiveRouteAddingDTO activeRoute){
+    public void addActiveRoute(@Valid @RequestBody ActiveRouteAddingDTO activeRoute) throws Exception{
         activeRouteService.addActiveRoute(activeRoute);
     }
 
     @DeleteMapping
     @RequestMapping("/deleteRoute")
-    public void deleteActiveRoute(@Valid @RequestBody long id){
+    public void deleteActiveRoute(@Valid @RequestBody long id) throws Exception{
         activeRouteService.deleteActiveRoute(id);
     }
 
     @PostMapping
     @RequestMapping("/editRoute")
-    public void changeTime(@Valid @RequestBody ActiveRouteEditDTO activeRoute){
+    public void changeTime(@Valid @RequestBody ActiveRouteEditDTO activeRoute) throws Exception{
         activeRouteService.changeTime(activeRoute);
     }
 
@@ -70,7 +70,7 @@ public class ActiveRouteController {
 
     @PostMapping
     @RequestMapping("/activeRoute/setRating")
-    public void setRating(@Valid @RequestBody RatingDTO rating){
+    public void setRating(@Valid @RequestBody RatingDTO rating) throws Exception{
         activeRouteService.setRating(rating);
     }
 }
