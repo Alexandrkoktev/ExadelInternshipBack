@@ -3,6 +3,7 @@ package com.exadelinternship.carpool.services;
 import com.exadelinternship.carpool.adapters.ActiveRouteAdapter;
 import com.exadelinternship.carpool.dto.ActiveRouteFastInformationDTO;
 import com.exadelinternship.carpool.dto.BookingAddingDTO;
+import com.exadelinternship.carpool.dto.BookingValidationDTO;
 import com.exadelinternship.carpool.dto.RouteSearchDTO;
 import com.exadelinternship.carpool.entity.ActiveRoute;
 import com.exadelinternship.carpool.entity.Booking;
@@ -63,7 +64,7 @@ public class RouteSearchService {
         routes.stream().filter(route->isTimeAvailableRoute(route,userRoutes)&&isTimeAvailableBooking(route,userBookings));
         if(routeSearchDTO.getMeetPoint()!=null) {
             routes.stream().filter(route -> RouteSearchHelper.isCloseEnough(routeSearchDTO.getMeetPoint(),
-                   routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints())).collect(Collectors.toList());
+                   routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints(),0.5)).collect(Collectors.toList());
         }
         if(routeSearchDTO.getDatetime()!=null) {
             routes.stream().filter(route->route.getTimeAndDate().after(routeSearchDTO.getDatetime()))
@@ -72,5 +73,11 @@ public class RouteSearchService {
         List<ActiveRouteFastInformationDTO> result=new ArrayList<>();
         routes.forEach(route->result.add(activeRouteAdapter.activeRouteToActiveRouteFastInformationDTO(route)));
         return result;
+    }
+
+    public boolean isValid(BookingValidationDTO booking){
+        return RouteSearchHelper.isCloseEnough(booking.getMeetPoint(),
+                booking.getDestinationPoint(),
+                activeRouteRepository.getOne(booking.getId()).getRoute().getWayPoints(),0.03);
     }
 }

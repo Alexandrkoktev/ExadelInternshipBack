@@ -2,6 +2,7 @@ package com.exadelinternship.carpool.controllers;
 
 import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.services.BookingService;
+import com.exadelinternship.carpool.services.RouteSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class BookingController {
     @Autowired
     BookingService bookingService;
+    @Autowired
+    RouteSearchService routeSearchService;
 
     @GetMapping
     @RequestMapping("/bookings")
@@ -31,6 +34,13 @@ public class BookingController {
     public void deleteBooking(@Valid @RequestBody long id){
         bookingService.deleteBooking(id);
     }
+
+    @PostMapping
+    @RequestMapping("/bookingValid")
+    public boolean isValid(BookingValidationDTO booking){
+        return routeSearchService.isValid(booking);
+    }
+
 
     @GetMapping
     @RequestMapping("/bookings/history")
