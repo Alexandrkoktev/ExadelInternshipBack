@@ -125,15 +125,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(TooLongStringException.class)
-    protected ResponseEntity<Object> handleTooLongString(
-            TooLongStringException ex) {
-        ApiError apiError = new ApiError(REQUEST_HEADER_FIELDS_TOO_LARGE);
-        apiError.setMessage(ex.getMessage());
-        logger.error(apiError);
-        return buildResponseEntity(apiError);
-    }
-
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
      *

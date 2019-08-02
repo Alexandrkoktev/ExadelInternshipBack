@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,23 +36,28 @@ public class RouteSearchService {
     @Autowired
     BookingRepository bookingRepository;
 
-    private boolean isTimeAvailableRoute(ActiveRoute route,List<ActiveRoute> userRoutes){
-        for (ActiveRoute userRoute:userRoutes){
-            if (route.getTimeAndDate().getTime()+route.getRoute().getDuration()>userRoute.getTimeAndDate().getTime()||
-            route.getTimeAndDate().getTime()<userRoute.getTimeAndDate().getTime()+userRoute.getRoute().getDuration()){
-                return false;
-            }
-        }
-        return true;
+
+
+    private boolean isTimeAvailableRoute(ActiveRoute route, List<ActiveRoute> activeRoutes){
+        Timestamp startTime=route.getTimeAndDate();
+        long duration=route.getRoute().getDuration();
+        return !activeRoutes.stream().anyMatch(x->{
+            return !((startTime.getTime()<x.getTimeAndDate().getTime()
+                    && startTime.getTime()+duration<x.getTimeAndDate().getTime()) ||
+                    (startTime.getTime()>x.getTimeAndDate().getTime()+x.getRoute().getDuration() &&
+                            startTime.getTime()+duration > x.getTimeAndDate().getTime()+x.getRoute().getDuration()));
+        });
     }
-    private boolean isTimeAvailableBooking(ActiveRoute route,List<Booking> userBookings){
-        for (Booking userBooking:userBookings){
-            if (route.getTimeAndDate().getTime()+route.getRoute().getDuration()>userBooking.getActiveRoute().getTimeAndDate().getTime()||
-                    route.getTimeAndDate().getTime()<userBooking.getActiveRoute().getTimeAndDate().getTime()+userBooking.getActiveRoute().getRoute().getDuration()){
-                return false;
-            }
-        }
-        return true;
+
+    private boolean isTimeAvailableBooking(ActiveRoute route, List<Booking> activeRoutes){
+        Timestamp startTime=route.getTimeAndDate();
+        long duration=route.getRoute().getDuration();
+        return !activeRoutes.stream().anyMatch(x->{
+            return !((startTime.getTime()<x.getActiveRoute().getTimeAndDate().getTime()
+                    && startTime.getTime()+duration<x.getActiveRoute().getTimeAndDate().getTime()) ||
+                    (startTime.getTime()>x.getActiveRoute().getTimeAndDate().getTime()+x.getActiveRoute().getRoute().getDuration() &&
+                            startTime.getTime()+duration > x.getActiveRoute().getTimeAndDate().getTime()+x.getActiveRoute().getRoute().getDuration()));
+        });
     }
 
     public List<ActiveRouteFastInformationDTO> getRoutes(RouteSearchDTO routeSearchDTO){
@@ -60,7 +66,7 @@ public class RouteSearchService {
         routes=routes.stream().filter(route->route.getUser().getId()!=userId&&route.getFreeSeats()>0).collect(Collectors.toSet());
         List<ActiveRoute> userRoutes=activeRouteRepository.getByUser_IdAndEnabled(userId,true).stream().collect(Collectors.toList());
         List<Booking> userBookings=bookingRepository.getByUser_IdAndActiveRoute_Enabled(userId,true).stream().collect(Collectors.toList());
-      //  routes=routes.stream().filter(route->isTimeAvailableRoute(route,userRoutes)&&isTimeAvailableBooking(route,userBookings)).collect(Collectors.toSet());
+        routes=routes.stream().filter(route->isTimeAvailableRoute(route,userRoutes)&&isTimeAvailableBooking(route,userBookings)).collect(Collectors.toSet());
         if(routeSearchDTO.getMeetPoint()!=null) {
            routes=routes.stream().filter(route -> RouteSearchHelper.isCloseEnough(routeSearchDTO.getMeetPoint(),
                    routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints())).collect(Collectors.toSet());
@@ -71,6 +77,6 @@ public class RouteSearchService {
         }
         List<ActiveRouteFastInformationDTO> result=new ArrayList<>();
         routes.forEach(route->result.add(activeRouteAdapter.activeRouteToActiveRouteFastInformationDTO(route)));
-        return result;
+        return result.stream().sorted(Comparator.comparing(ActiveRouteFastInformationDTO::getTimeAndDate)).collect(Collectors.toList());
     }
 }
