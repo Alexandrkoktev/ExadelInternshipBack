@@ -86,6 +86,7 @@ public class BookingService {
         if(booking!=null && booking.getActiveRoute().isEnabled() && booking.getUser().getId()==user.getId()){
             bookingRepository.delete(booking);
             activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats()+1));
+            activeRouteRepository.save(activeRoute);
         }
         else{
 
