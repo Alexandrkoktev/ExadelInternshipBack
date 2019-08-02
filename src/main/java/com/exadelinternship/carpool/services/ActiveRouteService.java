@@ -84,9 +84,9 @@ public class ActiveRouteService {
                 && booking.getUser().getId()==userDetails.getId()){
             booking.setPassengerRating(rating.getRate());
             bookingRepository.save(booking);
-            User passenger = booking.getActiveRoute().getUser();
+            User passenger = booking.getUser();
             passenger.setRatingPassenger((passenger.getRatingPassenger() * passenger.getAmountOfVotersPassenger() + rating.getRate())
-                    /passenger.getAmountOfVotersPassenger()+1);
+                    /(passenger.getAmountOfVotersPassenger()+1));
             passenger.setAmountOfVotersPassenger(passenger.getAmountOfVotersPassenger()+1);
             userRepository.save(passenger);
 

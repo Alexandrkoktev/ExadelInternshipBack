@@ -57,9 +57,9 @@ public class BookingService {
                 && booking.getUser().getId()==userDetails.getId()){
             booking.setDriverRating(rating.getRate());
             bookingRepository.save(booking);
-            User driver = booking.getUser();
+            User driver = booking.getActiveRoute().getUser();
             driver.setRatingDriver((driver.getRatingDriver()*driver.getAmountOfVotersDriver() + rating.getRate())
-                    /driver.getAmountOfVotersDriver()+1);
+                    /(driver.getAmountOfVotersDriver()+1));
             driver.setAmountOfVotersDriver(driver.getAmountOfVotersDriver()+1);
             userRepository.save(driver);
         } else{
