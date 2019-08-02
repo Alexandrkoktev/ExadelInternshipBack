@@ -48,6 +48,7 @@ public class BookingAdapter {
         bookingInformationDTO.setMeetPoint(booking.getMeetPoint());
         bookingInformationDTO.setRating(booking.getDriverRating());
         bookingInformationDTO.setEnabled(booking.getActiveRoute().isEnabled());
+        bookingInformationDTO.setDriverName(booking.getActiveRoute().getUser().getName());
         return bookingInformationDTO;
     }
 

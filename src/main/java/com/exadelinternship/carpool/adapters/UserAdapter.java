@@ -23,7 +23,7 @@ public class UserAdapter {
     @Autowired
     BookingAdapter bookingAdapter;
 
-    private final int AMOUNT_OF_NOTES = 5;
+    private final int AMOUNT_OF_NOTES = 3;
 
     public UserInformationDTO userToUserInformationDto(User user){
         UserInformationDTO userDTO = new UserInformationDTO();
