@@ -14,9 +14,9 @@ public class ActiveRouteInformationDTO {
     private double[] startPoint;
     private double[] finishPoint;
     private double[][] viaPoints;
-    private int routeUrl;
     private boolean enabled;
     private List<BookingForDriverDTO> bookings;
+    private long routeId;
 
     public String getStartPointName() {
         return startPointName;
@@ -58,12 +58,12 @@ public class ActiveRouteInformationDTO {
         this.viaPoints = viaPoints;
     }
 
-    public int getRouteUrl() {
-        return routeUrl;
+    public long getRouteId() {
+        return routeId;
     }
 
-    public void setRouteUrl(int routeUrl) {
-        this.routeUrl = routeUrl;
+    public void setRouteId(long routeId) {
+        this.routeId = routeId;
     }
 
     public String getCarInformation() {
