@@ -20,6 +20,8 @@ public class BookingAdapter {
         bookingForDriverDTO.setName(booking.getUser().getName());
         bookingForDriverDTO.setPhoneNumber(booking.getUser().getPhoneNumber());
         bookingForDriverDTO.setRating(booking.getPassengerRating());
+        bookingForDriverDTO.setUserRating(booking.getUser().getRatingPassenger());
+        bookingForDriverDTO.setBookingId(booking.getId());
         return bookingForDriverDTO;
     }
 
@@ -49,6 +51,8 @@ public class BookingAdapter {
         bookingInformationDTO.setRating(booking.getDriverRating());
         bookingInformationDTO.setEnabled(booking.getActiveRoute().isEnabled());
         bookingInformationDTO.setDriverName(booking.getActiveRoute().getUser().getName());
+        bookingInformationDTO.setPhoneNumber(booking.getActiveRoute().getUser().getPhoneNumber());
+        bookingInformationDTO.setDriverRating(booking.getActiveRoute().getUser().getRatingDriver());
         return bookingInformationDTO;
     }
 

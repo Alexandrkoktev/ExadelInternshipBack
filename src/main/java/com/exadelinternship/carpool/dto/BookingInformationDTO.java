@@ -20,6 +20,8 @@ public class BookingInformationDTO {
     private double rating;
     private boolean enabled;
     private String driverName;
+    private String phoneNumber;
+    private double driverRating;
 
     public double[] getMeetPoint() {
         return meetPoint;
@@ -147,5 +149,21 @@ public class BookingInformationDTO {
 
     public void setDriverName(String driverName) {
         this.driverName = driverName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public double getDriverRating() {
+        return driverRating;
+    }
+
+    public void setDriverRating(double driverRating) {
+        this.driverRating = driverRating;
     }
 }

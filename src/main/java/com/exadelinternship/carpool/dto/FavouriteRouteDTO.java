@@ -4,6 +4,7 @@ public class FavouriteRouteDTO {
     private String name;
     private long routeId;
 
+
     public String getName() {
         return name;
     }

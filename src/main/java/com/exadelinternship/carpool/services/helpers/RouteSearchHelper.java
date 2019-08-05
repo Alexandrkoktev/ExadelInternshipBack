@@ -45,9 +45,9 @@ public class RouteSearchHelper {
 
 
     }
-    public  static boolean isCloseEnough(double [] startPoint,double [] endPoint,double [][] wayPoints, double maxDistanse){
+    public  static boolean isCloseEnough(double [] startPoint,double [] endPoint,double [][] wayPoints, double maxDistance){
         boolean flag=false;
-        double minStart=DistanceFromPointToSegment(startPoint,wayPoints[0],wayPoints[1]);
+        double minStart=maxDistance;
         double minEnd=1;
         double startDistance=0;
         double endDistance=0;
@@ -65,7 +65,7 @@ public class RouteSearchHelper {
                }
             }
         }
-        return minStart<maxDistanse && minEnd<maxDistanse;
+        return minStart<maxDistance && minEnd<maxDistance;
     }
 
 }
