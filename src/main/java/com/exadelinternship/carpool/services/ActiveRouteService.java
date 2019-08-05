@@ -55,7 +55,8 @@ public class ActiveRouteService {
     public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(){
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Set<ActiveRoute> activeRoutes = activeRouteRepository.getByUser_IdAndEnabled(user.getId(), true);
-        return activeRoutesToActiveRoutesFastInformation(activeRoutes.stream().collect(Collectors.toList()));
+        return activeRoutesToActiveRoutesFastInformation(activeRoutes.stream()
+                .sorted((x,y)->{return x.getTimeAndDate().compareTo(y.getTimeAndDate());}).collect(Collectors.toList()));
     }
 
     public void changeTime(ActiveRouteEditDTO activeRouteEdit) throws Exception{
@@ -81,8 +82,8 @@ public class ActiveRouteService {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Booking booking = bookingRepository.getOne(rating.getId());
         if(rating.getRate()>0 && rating.getRate()<6
-                && booking!=null && !booking.getActiveRoute().isEnabled() && booking.getPassengerRating()==0
-                && booking.getUser().getId()==userDetails.getId()){
+                && booking!=null && !booking.getActiveRoute().isEnabled() && booking.getPassengerRating()<1
+                && booking.getActiveRoute().getUser().getId()==userDetails.getId()){
             booking.setPassengerRating(rating.getRate());
             bookingRepository.save(booking);
             User passenger = booking.getUser();

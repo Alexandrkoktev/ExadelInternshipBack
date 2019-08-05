@@ -36,7 +36,9 @@ public class BookingService {
     public List<BookingFastInformationDTO> getPageOfBookingsInformation(){
         UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Set<Booking> bookings = bookingRepository.getByUser_IdAndActiveRoute_Enabled(user.getId(), true);
-        return bookingsToBookingsFastInformation(bookings.stream().collect(Collectors.toList()));
+        return bookingsToBookingsFastInformation(bookings.stream()
+                .sorted((x,y)->{return x.getActiveRoute().getTimeAndDate().compareTo(y.getActiveRoute().getTimeAndDate());})
+                .collect(Collectors.toList()));
     }
 
     public BookingInformationDTO getBookingInformation(long id){

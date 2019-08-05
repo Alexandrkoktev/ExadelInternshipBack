@@ -7,6 +7,7 @@ public class ActiveRouteFastInformationDTO {
     private Timestamp timeAndDate;
     private String startPointName;
     private String finishPointName;
+    private double rating;
 
     public long getId() {
         return id;
@@ -38,5 +39,13 @@ public class ActiveRouteFastInformationDTO {
 
     public void setFinishPointName(String finishPointName) {
         this.finishPointName = finishPointName;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

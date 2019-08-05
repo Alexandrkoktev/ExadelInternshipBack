@@ -5,7 +5,7 @@ public class FavouriteRouteInfoDTO {
     private long routeId;
     private String startPointName;
     private String endPointName;
-
+    private long id;
 
     public String getName() {
         return name;
@@ -38,4 +38,13 @@ public class FavouriteRouteInfoDTO {
     public void setEndPointName(String endPointName) {
         this.endPointName = endPointName;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

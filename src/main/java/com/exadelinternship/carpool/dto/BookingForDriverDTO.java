@@ -7,6 +7,7 @@ public class BookingForDriverDTO {
     private double[] meetPoint;
     private double[] destinationPoint;
     private double rating;
+    private double passengerRating;
 
     public String getName() {
         return name;
@@ -54,5 +55,13 @@ public class BookingForDriverDTO {
 
     public void setBookingId(long bookingId) {
         this.bookingId = bookingId;
+    }
+
+    public double getUserRating() {
+        return passengerRating;
+    }
+
+    public void setUserRating(double userRating) {
+        this.passengerRating = userRating;
     }
 }
