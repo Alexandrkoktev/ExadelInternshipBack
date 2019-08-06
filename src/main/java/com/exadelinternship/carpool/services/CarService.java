@@ -24,7 +24,7 @@ public class CarService {
     public List<CarDTO> getAllCars(){
         List<CarDTO> result=new ArrayList<>();
         long userId=((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        carRepository.findAllByUser_Id(userId).forEach(car -> result.add(carAdapter.carToCarDto(car)));
+        carRepository.findAllByUser_IdAndDeleted(userId,false).forEach(car -> result.add(carAdapter.carToCarDto(car)));
         return result;
     }
 
@@ -56,7 +56,8 @@ public class CarService {
         long userId=((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Car car=carRepository.getOne(id);
         if(car.getUser().getId()==userId) {
-            carRepository.deleteById(id);
+            car.setDeleted(true);
+            carRepository.save(car);
         }
 
     }

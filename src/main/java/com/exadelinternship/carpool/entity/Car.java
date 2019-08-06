@@ -17,6 +17,9 @@ public class Car {
     @Column(name="carInformation")
     private String carInformation;
 
+    @Column(name="deleted")
+    private boolean deleted;
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy="car")
     private Set<ActiveRoute> activeRoutes;
 
@@ -52,5 +55,11 @@ public class Car {
         this.activeRoutes = activeRoutes;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }

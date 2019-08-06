@@ -17,6 +17,7 @@ public class CarAdapter {
         Car car=new Car();
         car.setCarInformation(carInfo);
         car.setUser(userRepository.getOne(userId));
+        car.setDeleted(false);
         return car;
     }
 
