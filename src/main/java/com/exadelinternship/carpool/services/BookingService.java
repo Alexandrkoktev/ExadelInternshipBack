@@ -73,7 +73,9 @@ public class BookingService {
         UserDetailsImpl userDetails = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getOne(userDetails.getId());
         ActiveRoute activeRoute = activeRouteRepository.getOne(bookingToAdd.getActiveRouteId());
-        if(activeRoute.getFreeSeats() != 0){
+        if(activeRoute.getFreeSeats() != 0 && bookingToAdd.getMeetPoint()!=null &&
+                bookingToAdd.getMeetPoint().length==2 && bookingToAdd.getDestinationPoint()!=null &&
+                bookingToAdd.getDestinationPoint().length==2){
             Booking booking = bookingAdapter.bookingAddingToBooking(bookingToAdd,user,activeRoute);
             activeRoute.setFreeSeats((short)(activeRoute.getFreeSeats() - 1));
             activeRouteRepository.save(activeRoute);
