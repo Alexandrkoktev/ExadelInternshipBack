@@ -10,4 +10,5 @@ import java.util.Set;
 @Repository
 public interface FavouriteRouteRepository extends JpaRepository<FavouriteRoute, Long> {
     Set<FavouriteRoute> findAllByUser_Id(long id);
+    FavouriteRoute findByRouteId(long id);
 }

@@ -70,10 +70,10 @@ public class RouteSearchService {
         routes=routes.stream().filter(route->isTimeAvailableRoute(route,userRoutes)&&isTimeAvailableBooking(route,userBookings)).collect(Collectors.toSet());
         if(routeSearchDTO.getMeetPoint()!=null) {
             routes=routes.stream().filter(route -> RouteSearchHelper.isCloseEnough(routeSearchDTO.getMeetPoint(),
-                   routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints(),0.5)).collect(Collectors.toSet());
+                   routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints(),1)).collect(Collectors.toSet());
         }
         if(routeSearchDTO.getDatetime()!=null) {
-            routes=routes=routes.stream().filter(route->route.getTimeAndDate().after(routeSearchDTO.getDatetime()))
+            routes=routes.stream().filter(route->route.getTimeAndDate().after(routeSearchDTO.getDatetime()))
                            .collect(Collectors.toSet());
         }
         List<ActiveRouteFastInformationDTO> result=new ArrayList<>();

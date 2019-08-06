@@ -33,7 +33,7 @@ public class FavouriteRouteService {
     }
 
     public void saveFavouriteRoute(FavouriteRouteDTO favouriteRouteDTO)throws Exception{
-        if(favouriteRouteDTO.getName().length()<256) {
+        if(favouriteRouteDTO.getName().length()<256&&favouriteRouteRepository.findByRouteId(favouriteRouteDTO.getRouteId())==null) {
             long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             FavouriteRoute favouriteRoute = favouriteRouteAdapter.favRouteDTOToFavRoute(favouriteRouteDTO, userId);
             favouriteRouteRepository.save(favouriteRoute);

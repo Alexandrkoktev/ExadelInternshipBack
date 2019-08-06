@@ -92,7 +92,7 @@ public class UserService {
     }
 
     private boolean contains(String word, String[] words){
-        return Arrays.stream(words).allMatch(x->word.contains(x));
+        return Arrays.stream(words).allMatch(x->word.toLowerCase().contains(x.toLowerCase()));
     }
 
     private Comparator<User> getComparator(int mode, boolean order){

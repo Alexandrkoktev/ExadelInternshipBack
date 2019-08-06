@@ -29,13 +29,13 @@ public class RouteSearchHelper {
         GeodeticCalculator geoCalc = new GeodeticCalculator();
 
         // select a reference elllipsoid
-        Ellipsoid reference = Ellipsoid.WGS84;
+      //  Ellipsoid reference = Ellipsoid.WGS84;
 
         double a=TwoDimensionalCalculation(segmentStart,segmentEnd);
         double b=TwoDimensionalCalculation(point,segmentStart);
         double c=TwoDimensionalCalculation(point,segmentEnd);
 
-        if(b*b-a*a-c*c<=0||c*c-b*b-a*a<=0){
+        if(b*b-a*a-c*c>=0||c*c-b*b-a*a>=0){
             return Math.min(b,c);
         }
         else{
