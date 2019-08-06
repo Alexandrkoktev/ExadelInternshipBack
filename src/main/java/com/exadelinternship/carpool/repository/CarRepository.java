@@ -9,4 +9,5 @@ import java.util.Set;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
     Set<Car> findAllByUser_Id(long id);
+    Set<Car> findAllByUser_IdAndDeleted(long id, boolean deleted);
 }
