@@ -22,6 +22,9 @@ public class User {
     @Column(name="ratingDriver")
     private double ratingDriver;
 
+    @Column(name="email")
+    private String email;
+
     @Column(name="ratingPassenger")
     private double ratingPassenger;
 
@@ -244,5 +247,13 @@ public class User {
 
     public void setAmountOfRoutes(int amountOfRoutes) {
         this.amountOfRoutes = amountOfRoutes;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
