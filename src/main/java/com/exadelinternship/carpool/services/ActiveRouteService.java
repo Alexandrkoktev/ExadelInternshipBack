@@ -263,6 +263,7 @@ public class ActiveRouteService {
                 notificationRepository.save(notification);
                 user.setAmountOfPassengers(user.getAmountOfPassengers()+x.getMaxSeats()-x.getFreeSeats());
                 user.setDistance(user.getDistance()+x.getRoute().getDistance());
+                user.setAmountOfRoutes(user.getAmountOfRoutes()+1);
                 userRepository.save(user);
                 activeRouteRepository.save(x);
             }
