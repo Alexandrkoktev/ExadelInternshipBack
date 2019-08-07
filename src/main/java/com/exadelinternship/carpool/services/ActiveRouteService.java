@@ -7,9 +7,6 @@ import com.exadelinternship.carpool.dto.*;
 import com.exadelinternship.carpool.entity.*;
 import com.exadelinternship.carpool.entity.impl.UserDetailsImpl;
 import com.exadelinternship.carpool.repository.*;
-import org.gavaghan.geodesy.GeodeticCalculator;
-import org.gavaghan.geodesy.GeodeticMeasurement;
-import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,9 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.internet.InternetAddress;
-import javax.print.DocFlavor;
-import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -68,7 +62,7 @@ public class ActiveRouteService {
 
         ActiveRoute activeRoute = activeRouteRepository.getOne(activeRouteEdit.getId());
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(activeRoute!=null && activeRoute.getUser().getId() == user.getId()){
+        if(activeRoute!=null &&activeRoute.isEnabled()&& activeRoute.getUser().getId() == user.getId()&&activeRouteEdit.getTimeAndDate().after(new Date())){
             notifyAllOfChangingTime(activeRoute,activeRouteEdit.getTimeAndDate());
             activeRoute.setTimeAndDate(activeRouteEdit.getTimeAndDate());
             activeRouteRepository.save(activeRoute);
@@ -108,7 +102,7 @@ public class ActiveRouteService {
         if(activeRouteAddingDTO.getStartPointName().length()<256 &&
                 activeRouteAddingDTO.getFinishPointName().length()<256) {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(isTimeFree(activeRouteAddingDTO.getTimeAndDate(),activeRouteAddingDTO.getDuration()*1000,userDetails.getId())){
+            if(isTimeFree(activeRouteAddingDTO.getTimeAndDate(),activeRouteAddingDTO.getDuration()*1000,userDetails.getId())&&activeRouteAddingDTO.getTimeAndDate().after(new Date())){
                 activeRouteAddingDTO.setDuration(activeRouteAddingDTO.getDuration()*1000);
                 activeRouteAddingDTO.setDistance(activeRouteAddingDTO.getDistance()/1000);
                 Car car = carRepository.getOne(activeRouteAddingDTO.getCarId());

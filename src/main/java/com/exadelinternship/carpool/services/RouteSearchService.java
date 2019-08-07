@@ -85,6 +85,6 @@ public class RouteSearchService {
     public boolean isValid(BookingValidationDTO booking){
         return RouteSearchHelper.isCloseEnough(booking.getMeetPoint(),
                 booking.getDestinationPoint(),
-                activeRouteRepository.getOne(booking.getId()).getRoute().getWayPoints(),0.03);
+                activeRouteRepository.getOne(booking.getId()).getRoute().getWayPoints(),0.1);
     }
 }
