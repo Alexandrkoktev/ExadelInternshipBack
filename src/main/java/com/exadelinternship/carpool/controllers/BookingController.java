@@ -37,7 +37,7 @@ public class BookingController {
 
     @PostMapping
     @RequestMapping("/bookingValid")
-    public boolean isValid(BookingValidationDTO booking){
+    public boolean isValid(@Valid @RequestBody BookingValidationDTO booking){
         return routeSearchService.isValid(booking);
     }
 
