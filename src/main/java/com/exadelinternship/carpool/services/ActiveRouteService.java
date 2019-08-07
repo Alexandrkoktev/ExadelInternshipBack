@@ -124,7 +124,7 @@ public class ActiveRouteService {
                 ActiveRoute activeRoute = activeRouteAdapter.activeRouteAddingDTOToActiveRoute(activeRouteAddingDTO, car, route, user);
                 activeRouteRepository.save(activeRoute);
             } else{
-
+                throw new Exception();
             }
         }
         else{

@@ -52,22 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
     }
-    @Bean
+   /* @Bean
     Filter corsFilter() {
         CorsFilter filter = new CorsFilter();
         return filter;
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http
-              .addFilterBefore(corsFilter(), ChannelProcessingFilter.class);
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "**").permitAll()//allow CORS option calls
-                .anyRequest().authenticated();
+     //   http
+         //    .addFilterBefore(corsFilter(), ChannelProcessingFilter.class);
         http
                 .authorizeRequests()
                 .antMatchers("/api/statistic").hasRole("ADMINISTRATOR")
@@ -88,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 })
                 .permitAll();
         http.csrf().disable();
-        http.cors().disable();
+        http.cors();
         http.formLogin().usernameParameter("j_username")
                 .passwordParameter("j_password");
         http.formLogin().successHandler(new AuthenticationSuccessHandler() {
@@ -98,19 +93,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             }
         });
         http.formLogin().failureHandler(customAuthenticationFailureHandler());
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-   /* @Bean
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://elpoputcio.herokuapp.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://elpoputcio.herokuapp.com","http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT","OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }*/
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
     {

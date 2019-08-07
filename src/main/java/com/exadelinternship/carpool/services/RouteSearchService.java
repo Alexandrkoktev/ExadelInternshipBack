@@ -73,7 +73,8 @@ public class RouteSearchService {
                    routeSearchDTO.getDestinationPoint(), route.getRoute().getWayPoints(),1)).collect(Collectors.toSet());
         }
         if(routeSearchDTO.getDatetime()!=null) {
-            routes=routes.stream().filter(route->route.getTimeAndDate().after(routeSearchDTO.getDatetime()))
+            routes=routes.stream().filter(route->route.getTimeAndDate().after(new Timestamp(routeSearchDTO.getDatetime().getTime()-7200000l)))
+                                  .filter(route->route.getTimeAndDate().before(new Timestamp(routeSearchDTO.getDatetime().getTime()+36000000l)))
                            .collect(Collectors.toSet());
         }
         List<ActiveRouteFastInformationDTO> result=new ArrayList<>();
