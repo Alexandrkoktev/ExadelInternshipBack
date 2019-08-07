@@ -38,7 +38,7 @@ public class NotificationService {
         List<NotificationDTO> result=new ArrayList<>();
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         notificationRepository.findAllByUser_Id(userId).stream()
-                .sorted((x,y)->{return x.getDatetime().compareTo(y.getDatetime());})
+                .sorted((x,y)->{return y.getDatetime().compareTo(x.getDatetime());})
                 .forEach(notif -> { result.add(notificationAdapter.notifToNotifDTO(notif, userId));
         });
         return result;
@@ -67,13 +67,15 @@ public class NotificationService {
             Booking booking = bookingRepository.getOne(message.getBookingId()[0]);
             if(booking.getUser().getId()==userId){
                 Notification notification = notificationAdapter
-                        .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
+                        .createNotification(booking.getActiveRoute().getUser(),
+                                booking.getUser().getName()+": "+message.getInformation(),
+                                booking.getActiveRoute());
                 notification.setDriver(true);
                 notificationRepository.save(notification);
                 SimpleMailMessage messageMail = new SimpleMailMessage();
                 messageMail.setTo(booking.getUser().getEmail());
                 messageMail.setSubject("Route message");
-                messageMail.setText(message.getInformation());
+                messageMail.setText(booking.getUser().getName()+": "+message.getInformation());
                 emailSender.send(messageMail);
             }
         }
@@ -85,13 +87,15 @@ public class NotificationService {
             Booking booking = bookingRepository.getOne(x);
             if(booking!=null && booking.getActiveRoute().isEnabled() && booking.getActiveRoute().getUser().getId()==userId){
                 Notification notification = notificationAdapter
-                        .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
+                        .createNotification(booking.getUser(),
+                                booking.getActiveRoute().getUser().getName()+": "+message.getInformation(),
+                                booking.getActiveRoute());
                 notification.setDriver(false);
                 notificationRepository.save(notification);
                 SimpleMailMessage messageMail = new SimpleMailMessage();
                 messageMail.setTo(booking.getUser().getEmail());
                 messageMail.setSubject("Route message");
-                messageMail.setText(message.getInformation());
+                messageMail.setText(booking.getActiveRoute().getUser().getName()+": "+message.getInformation());
                 emailSender.send(messageMail);
             }
         });
