@@ -10,10 +10,13 @@ import com.exadelinternship.carpool.repository.BookingRepository;
 import com.exadelinternship.carpool.repository.NotificationRepository;
 import com.exadelinternship.carpool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,8 @@ public class NotificationService {
     NotificationAdapter notificationAdapter;
     @Autowired
     BookingRepository bookingRepository;
+    @Autowired
+    public JavaMailSender emailSender;
 
     public List<NotificationDTO> getAllNotifications(){
         List<NotificationDTO> result=new ArrayList<>();
@@ -58,26 +63,36 @@ public class NotificationService {
 
     public void sendBookingMessages(NotificationMessageDTO message){
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        if(message.getBookingId().size()==1){
-            Booking booking = bookingRepository.getOne(message.getBookingId().get(0));
+        if(message.getBookingId().length==1){
+            Booking booking = bookingRepository.getOne(message.getBookingId()[0]);
             if(booking.getUser().getId()==userId){
                 Notification notification = notificationAdapter
                         .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
                 notification.setDriver(true);
                 notificationRepository.save(notification);
+                SimpleMailMessage messageMail = new SimpleMailMessage();
+                messageMail.setTo(booking.getUser().getEmail());
+                messageMail.setSubject("Route message");
+                messageMail.setText(message.getInformation());
+                emailSender.send(messageMail);
             }
         }
     }
 
     public void sendRouteMessages(NotificationMessageDTO message){
         long userId=((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        message.getBookingId().stream().forEach(x->{
+        Arrays.stream(message.getBookingId()).forEach(x->{
             Booking booking = bookingRepository.getOne(x);
             if(booking!=null && booking.getActiveRoute().isEnabled() && booking.getActiveRoute().getUser().getId()==userId){
                 Notification notification = notificationAdapter
                         .createNotification(booking.getUser(),message.getInformation(),booking.getActiveRoute());
                 notification.setDriver(false);
                 notificationRepository.save(notification);
+                SimpleMailMessage messageMail = new SimpleMailMessage();
+                messageMail.setTo(booking.getUser().getEmail());
+                messageMail.setSubject("Route message");
+                messageMail.setText(message.getInformation());
+                emailSender.send(messageMail);
             }
         });
     }

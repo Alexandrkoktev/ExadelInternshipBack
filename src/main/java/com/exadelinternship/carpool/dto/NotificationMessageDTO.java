@@ -3,14 +3,14 @@ package com.exadelinternship.carpool.dto;
 import java.util.List;
 
 public class NotificationMessageDTO {
-    private List<Long> bookingId;
+    private long[] bookingId;
     private String information;
 
-    public List<Long> getBookingId() {
+    public long[] getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(List<Long> bookingId) {
+    public void setBookingId(long[] bookingId) {
         this.bookingId = bookingId;
     }
 

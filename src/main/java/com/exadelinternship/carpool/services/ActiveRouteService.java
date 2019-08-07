@@ -11,12 +11,16 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticMeasurement;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.internet.InternetAddress;
 import javax.print.DocFlavor;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +34,6 @@ public class ActiveRouteService {
     private final String EDIT_MESSAGE = "Time of route from %s to %s was changed from %s to %s";
     private final String RATE_DRIVER = "You can rate your passengers on route from %s to %s";
     private final String RATE_PASSENGER = "You can rate your driver on route from %s to %s";
-
     @Autowired
     ActiveRouteRepository activeRouteRepository;
     @Autowired
@@ -51,6 +54,8 @@ public class ActiveRouteService {
     NotificationAdapter notificationAdapter;
     @Autowired
     NotificationRepository notificationRepository;
+    @Autowired
+    public JavaMailSender emailSender;
 
     public List<ActiveRouteFastInformationDTO> getPageOfActiveRoutesInformation(){
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -189,13 +194,19 @@ public class ActiveRouteService {
     private void deleteBooking(Booking booking){
         User user = booking.getUser();
         ActiveRoute activeRoute = booking.getActiveRoute();
+        String text = String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
+                activeRoute.getRoute().getFinishPointName(),
+                toStringDate(activeRoute.getTimeAndDate().getTime()));
         Notification notification = notificationAdapter.
                 createNotification(user,
-                        String.format(DELETE_MESSAGE,activeRoute.getRoute().getStartPointName(),
-                                activeRoute.getRoute().getFinishPointName(),
-                                toStringDate(activeRoute.getTimeAndDate().getTime())),activeRoute);
+                        text,activeRoute);
         notification.setDriver(false);
         notificationRepository.save(notification);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Route deleted");
+        message.setText(text);
+        emailSender.send(message);
         bookingRepository.delete(booking);
     }
 
@@ -206,13 +217,19 @@ public class ActiveRouteService {
     private void notifyOfChangingTime(Booking booking, Timestamp newTime){
         User user = booking.getUser();
         ActiveRoute activeRoute = booking.getActiveRoute();
+        String text = String.format(EDIT_MESSAGE,
+                activeRoute.getRoute().getStartPointName(),
+                activeRoute.getRoute().getFinishPointName(),
+                toStringDate(activeRoute.getTimeAndDate().getTime()),
+                toStringDate(newTime.getTime()));
         Notification notification = notificationAdapter.
-                createNotification(user,String.format(EDIT_MESSAGE,
-                        activeRoute.getRoute().getStartPointName(),
-                        activeRoute.getRoute().getFinishPointName(),
-                        toStringDate(activeRoute.getTimeAndDate().getTime()),
-                        toStringDate(newTime.getTime())),activeRoute);
+                createNotification(user, text, activeRoute);
         notification.setDriver(false);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Route edit");
+        message.setText(text);
+        emailSender.send(message);
         notificationRepository.save(notification);
     }
 
