@@ -229,7 +229,7 @@ public class ActiveRouteService {
 
     private String toStringDate(long time){
         DateFormat d= new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return d.format(new Date(time));
+        return d.format(new Date(time+10800000l));
     }
 
     public List<ActiveRouteFastInformationDTO> getHistory(){
