@@ -40,7 +40,7 @@ public class UserAdapter {
     }
 
     private int amountNotChecked(Set<Notification> notifications){
-        return (int)notifications.stream().filter(x->{return x.isChecked();}).count();
+        return (int)notifications.stream().filter(x->{return !x.isChecked();}).count();
     }
 
     private List<BookingFastInformationDTO> getFirstBookings(Set<Booking> bookings, int amount){
