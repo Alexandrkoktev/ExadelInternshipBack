@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserAdapter {
@@ -29,7 +28,7 @@ public class UserAdapter {
         UserInformationDTO userDTO = new UserInformationDTO();
         userDTO.setName(user.getName());
         userDTO.setRole(user.getRole());
-        userDTO.setAllNotificationsChecked(isChecked(user.getNotifications()));
+        userDTO.setAmountOfNotifications(amountNotChecked(user.getNotifications()));
         return userDTO;
     }
 
@@ -40,8 +39,8 @@ public class UserAdapter {
         return userListsDTO;
     }
 
-    private boolean isChecked(Set<Notification> notifications){
-        return notifications.stream().allMatch(x->{return x.isChecked();});
+    private int amountNotChecked(Set<Notification> notifications){
+        return (int)notifications.stream().filter(x->{return x.isChecked();}).count();
     }
 
     private List<BookingFastInformationDTO> getFirstBookings(Set<Booking> bookings, int amount){

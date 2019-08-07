@@ -7,14 +7,14 @@ import java.util.List;
 public class UserInformationDTO {
     private String name;
     private UserRole role;
-    private boolean allNotificationsChecked;
+    private int amountOfNotifications;
 
-    public boolean isAllNotificationsChecked() {
-        return allNotificationsChecked;
+    public int getAmountOfNotifications() {
+        return amountOfNotifications;
     }
 
-    public void setAllNotificationsChecked(boolean allNotificationsChecked) {
-        this.allNotificationsChecked = allNotificationsChecked;
+    public void setAmountOfNotifications(int amountOfNotifications) {
+        this.amountOfNotifications = amountOfNotifications;
     }
 
     public UserRole getRole() {
